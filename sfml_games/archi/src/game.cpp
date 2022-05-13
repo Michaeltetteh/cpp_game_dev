@@ -9,7 +9,7 @@ Game::Game()
     :_window(sf::VideoMode(800,600),"Archi"),
      _player(20)
      {
-        _window.setFramerateLimit(60);
+        _window.setFramerateLimit(120);
         _player.setFillColor(sf::Color::Blue);
         _player.setPosition(10,20);
 
@@ -45,7 +45,7 @@ void Game::do_animation()
     }
     else
         direction = true;
-    std::cout<<_player.getRadius()<<"\n";
+//    std::cout<<_player.getRadius()<<"\n";
 }
 
 void Game::processEvents()

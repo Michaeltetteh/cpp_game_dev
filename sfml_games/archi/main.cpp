@@ -6,7 +6,7 @@
 int main(int args, char *argv[])
 {
     Game game;
-    game.run(true);
+    game.run(1);
 
     return 0;
 }
