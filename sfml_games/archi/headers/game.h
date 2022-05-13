@@ -1,7 +1,3 @@
-//
-// Created by mike on 13/05/2022.
-//
-
 #ifndef ARCHI_GAME_H
 #define ARCHI_GAME_H
 

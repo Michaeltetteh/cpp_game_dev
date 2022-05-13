@@ -3,9 +3,9 @@ project(archi)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES  main.cpp src/game.cpp)
+set(SOURCE_FILES  main.cpp src/game.cpp src/player.cpp)
 
-set(HEADER_FILES headers/game.h)
+set(HEADER_FILES headers/game.h headers/player.h)
 add_executable(archi ${SOURCE_FILES}  ${HEADER_FILES})
 
 include_directories(/usr/local/include)
