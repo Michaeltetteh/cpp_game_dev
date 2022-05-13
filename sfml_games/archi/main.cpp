@@ -5,8 +5,8 @@
 
 int main(int args, char *argv[])
 {
-//    Game game;
-//    game.run();
+    Game game;
+    game.run(true);
 
     return 0;
 }

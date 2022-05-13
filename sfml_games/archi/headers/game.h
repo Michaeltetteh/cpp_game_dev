@@ -13,7 +13,9 @@ public:
     Game(const Game &) = delete;
     Game &operator=(const Game &) = delete;
     Game();
-    void run();
+    void run(bool animate=false);
+
+    void do_animation();
 
 private:
     void processEvents();
@@ -22,6 +24,10 @@ private:
     sf::RenderWindow _window;
     sf::CircleShape _player;
 
+    //for do_animation
+    bool direction = true;
+    const float rThresh = 150;
+    void update_player(float x,sf::Color color);
 };
 
 #endif //ARCHI_GAME_H
