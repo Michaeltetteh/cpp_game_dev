@@ -15,7 +15,42 @@ Game::Game()
 
      }
 
-void Game::run(bool animate,int fps)
+void Game::run_vts(bool animate)
+{
+    sf::Clock clock;
+    while (_window.isOpen())
+    {
+        processEvents();
+        if(!animate)
+            update(clock.restart());
+        else
+            do_animation(clock.restart());
+        render();
+    }
+}
+
+void Game::run_mts(bool animate,int minimum_frame_per_second)
+{
+    sf::Clock clock;
+    sf::Time timeSinceLastUpdate;
+    sf::Time TimePerFrame = sf::seconds(1.0f/minimum_frame_per_second);
+
+    while (_window.isOpen())
+    {
+        processEvents();
+        timeSinceLastUpdate = clock.restart();
+        while (timeSinceLastUpdate > TimePerFrame)
+        {
+            timeSinceLastUpdate -= TimePerFrame;
+
+            animate ? do_animation(TimePerFrame) :update(TimePerFrame);
+        }
+        animate ? do_animation(timeSinceLastUpdate) :update(timeSinceLastUpdate);
+        render();
+    }
+}
+
+void Game::run_fts(bool animate,int fps)
 {
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
@@ -30,12 +65,8 @@ void Game::run(bool animate,int fps)
         {
             timeSinceLastUpdate -= TimePerFrame;
             repaint = true;
-            if(!animate)
-                update(TimePerFrame);
-            else
-                do_animation(TimePerFrame);
+            !animate ?update(TimePerFrame) :do_animation(TimePerFrame);
         }
-
         if(repaint)
             render();
     }
@@ -59,6 +90,7 @@ void Game::do_animation(sf::Time deltaTime)
     else
         direction = true;
 //    std::cout<<_player.getRadius()<<"\n";
+//    std::cout<<deltaTime.asSeconds()<<"\n";
 }
 
 void Game::processEvents()
