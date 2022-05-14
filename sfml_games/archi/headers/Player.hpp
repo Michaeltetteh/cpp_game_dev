@@ -5,6 +5,7 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include "ActionTarget.hpp"
 
 class Player : public sf::Drawable, public book::ActionTarget<int>
@@ -17,7 +18,7 @@ public:
     template<typename ...Args>
     void setPosition(Args&& ...args)
     {
-        _shape.setPosition(std::forward<Args>(args)...);
+        _ship.setPosition(std::forward<Args>(args)...);
     }
 
     void update(sf::Time deltaTime);
@@ -30,7 +31,7 @@ private:
 
     virtual void draw(sf::RenderTarget &target,sf::RenderStates states) const override;
 
-    sf::RectangleShape  _shape;
+    sf::Sprite  _ship;
     sf::Vector2f        _velocity;
     bool _isMoving;
     int _rotation;

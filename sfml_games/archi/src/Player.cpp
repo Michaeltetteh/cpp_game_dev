@@ -1,16 +1,16 @@
 #include <cmath>
 #include <SFML/Window/Keyboard.hpp>
 #include "../headers/Player.hpp"
-
+#include "../headers/Configuration.hpp"
 
 Player::Player()
-    : ActionTarget(_playerInputs),
-      _shape(sf::Vector2f(32,32)),
+    : ActionTarget(book::Configuration::player_inputs),
       _isMoving(false),
       _rotation(0)
     {
-        _shape.setFillColor(sf::Color::Blue);
-        _shape.setOrigin(16,16);
+//        _shape.setFillColor(sf::Color::Blue);
+        _ship.setTexture(book::Configuration::textures.get(book::Configuration::Texture::Player));
+        _ship.setOrigin(16,16);
 
         bind(PlayerInputs::UP,[this](const sf::Event&){
             _isMoving = true;
@@ -31,19 +31,19 @@ void Player::update(sf::Time deltaTime)
     if(_rotation != 0)
     {
         float angle = _rotation * 180 * seconds;
-        _shape.rotate(angle);
+        _ship.rotate(angle);
     }
     if(_isMoving)
     {
-        float angle = _shape.getRotation() / 180 * M_PI - M_PI / 2;
+        float angle = _ship.getRotation() / 180 * M_PI - M_PI / 2;
         _velocity += sf::Vector2f(std::cos(angle),std::sin(angle)) * 60.f * seconds;
     }
-    _shape.move(seconds * _velocity);
+    _ship.move(seconds * _velocity);
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-    target.draw(_shape,states);
+    target.draw(_ship,states);
 }
 
 

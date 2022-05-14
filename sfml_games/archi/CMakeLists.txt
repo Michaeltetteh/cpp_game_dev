@@ -8,7 +8,7 @@ set(SOURCE_FILES
         src/Game.cpp
         src/Player.cpp
         src/Action.cpp
-)
+        src/Configuration.cpp)
 
 set(HEADER_FILES
         headers/Game.hpp
@@ -19,7 +19,7 @@ set(HEADER_FILES
         headers/ActionMap.hpp
         headers/ActionMap.tpl
         headers/ResourceManager.hpp
-        headers/ResourceManager.tpl)
+        headers/ResourceManager.tpl headers/Configuration.hpp)
 
 add_executable(archi ${SOURCE_FILES}  ${HEADER_FILES})
 
