@@ -15,4 +15,20 @@ namespace book
     {
         return *_map.at(id);
     }
+
+    template<typename IDENTIFIER>
+    template<typename ...Args>
+    void ResourceManager<sf::Music,IDENTIFIER>::load(const IDENTIFIER &id,Args&& ...args)
+    {
+        std::unique_ptr<sf::Music> ptr(new sf::Music);
+        if(not ptr->openFromFile(std::forward<Args>(args)...))
+            throw std::runtime_error("Error opening music from file.");
+        _map.emplace(std::move(ptr));
+    }
+
+    template<typename IDENTIFIER>
+    sf::Music &ResourceManager<sf::Music,IDENTIFIER>::get(const IDENTIFIER &id) const
+    {
+        return *_map.at(id);
+    }
 }

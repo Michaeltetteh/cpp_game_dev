@@ -27,7 +27,7 @@ private:
     //for do_animations
     bool direction = true;
     const float rThresh = 150;
-    void update_player(float x,sf::Color color);
+//    void update_player(float x,sf::Color color);
 };
 
 #endif //ARCHI_GAME_HPP
