@@ -7,7 +7,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include "ActionTarget.hpp"
 
-class Player : public sf::Drawable , public ActionTarget
+class Player : public sf::Drawable , public ActionTarget<int>
 {
 public:
     Player(const Player&) =delete;
