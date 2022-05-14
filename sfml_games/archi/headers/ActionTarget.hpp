@@ -34,6 +34,7 @@ namespace book
         const ActionMap<T> & _actionMap;
 
     };
+
 }
 
 #include "ActionTarget.tpl"

@@ -25,6 +25,8 @@ public:
     bool test() const;
     bool operator==(const sf::Event &event) const;
     bool operator==(const Action &other) const;
+    inline const sf::Event get_event() const {return _event;}
+    inline const int get_type() const {return _type;}
 
 private:
     friend class ActionTarget;

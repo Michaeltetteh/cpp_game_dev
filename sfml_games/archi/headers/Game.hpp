@@ -14,7 +14,7 @@ public:
     void run_fts(bool animate=false,int fps=60); //using fixed time steps
     void run_mts(bool animate=false,int minimum_frame_per_second=60); //using minimum time steps
 
-    void do_animation(sf::Time deltaTime);
+//    void do_animation(sf::Time deltaTime);
 
 private:
     void processEvents();

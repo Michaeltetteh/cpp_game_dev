@@ -4,22 +4,23 @@
 
 
 Player::Player()
-    : _shape(sf::Vector2f(32,32)),
-        _isMoving(false),
-        _rotation(0)
+    : ActionTarget(_playerInputs),
+      _shape(sf::Vector2f(32,32)),
+      _isMoving(false),
+      _rotation(0)
     {
         _shape.setFillColor(sf::Color::Blue);
         _shape.setOrigin(16,16);
 
-        bind(Action(sf::Keyboard::Up),[this](const sf::Event&){
+        bind(PlayerInputs::UP,[this](const sf::Event&){
             _isMoving = true;
         });
 
-        bind(Action(sf::Keyboard::Left),[this](const sf::Event&){
+        bind(PlayerInputs::LEFT,[this](const sf::Event&){
             _rotation -= 1;
         });
 
-        bind(Action(sf::Keyboard::Right),[this](const sf::Event&){
+        bind(PlayerInputs::RIGHT,[this](const sf::Event&){
             _rotation += 1;
         });
     }
@@ -45,9 +46,19 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
     target.draw(_shape,states);
 }
 
+
 void Player::processEvents()
 {
     _isMoving = false;
     _rotation = 0;
     ActionTarget::processEvents();
 }
+
+void Player::setDefaultInputs()
+{
+    _playerInputs.map(PlayerInputs::UP,Action(sf::Keyboard::Up));
+    _playerInputs.map(PlayerInputs::RIGHT,Action(sf::Keyboard::Right));
+    _playerInputs.map(PlayerInputs::LEFT,Action(sf::Keyboard::Left));
+}
+
+ActionMap<int> Player::_playerInputs;

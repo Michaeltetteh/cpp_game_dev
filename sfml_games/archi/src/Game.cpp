@@ -3,12 +3,10 @@
 #include <SFML/Window/Event.hpp>
 
 Game::Game()
-    :_window(sf::VideoMode(800,600),"Archi"),
-     _player(Player)
+    :_window(sf::VideoMode(800,600),"Archi")
      {
 //        _window.setFramerateLimit(120);
-        _player.setFillColor(sf::Color::Blue);
-        _player.setPosition(10,20);
+        _player.setPosition(100,100);
 
      }
 
@@ -18,10 +16,10 @@ void Game::run_vts(bool animate)
     while (_window.isOpen())
     {
         processEvents();
-        if(!animate)
-            update(clock.restart());
-        else
-            do_animation(clock.restart());
+//        if(!animate)
+        update(clock.restart());
+//        else
+//            do_animation(clock.restart());
         render();
     }
 }
@@ -39,10 +37,11 @@ void Game::run_mts(bool animate,int minimum_frame_per_second)
         while (timeSinceLastUpdate > TimePerFrame)
         {
             timeSinceLastUpdate -= TimePerFrame;
-
-            animate ? do_animation(TimePerFrame) :update(TimePerFrame);
+            update(TimePerFrame);
+//            animate ? do_animation(TimePerFrame) :update(TimePerFrame);
         }
-        animate ? do_animation(timeSinceLastUpdate) :update(timeSinceLastUpdate);
+        update(timeSinceLastUpdate);
+//        animate ? do_animation(timeSinceLastUpdate) :update(timeSinceLastUpdate);
         render();
     }
 }
@@ -62,7 +61,8 @@ void Game::run_fts(bool animate,int fps)
         {
             timeSinceLastUpdate -= TimePerFrame;
             repaint = true;
-            !animate ?update(TimePerFrame) :do_animation(TimePerFrame);
+            update(TimePerFrame);
+//            !animate ?update(TimePerFrame) :do_animation(TimePerFrame);
         }
         if(repaint)
             render();

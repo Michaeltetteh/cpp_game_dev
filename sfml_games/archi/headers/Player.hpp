@@ -2,7 +2,7 @@
 #define ARCHI_PLAYER_HPP
 
 
-#include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include "ActionTarget.hpp"
@@ -29,6 +29,7 @@ public:
 private:
 
     virtual void draw(sf::RenderTarget &target,sf::RenderStates states) const override;
+
     sf::RectangleShape  _shape;
     sf::Vector2f        _velocity;
     bool _isMoving;

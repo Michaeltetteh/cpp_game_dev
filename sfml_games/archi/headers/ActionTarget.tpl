@@ -1,10 +1,11 @@
 namespace book
 {
 
+
     template<typename T>
-    ActionTarget<T>::ActionTarget<T>(const ActionMap<T> &map)
+    ActionTarget<T>::ActionTarget(const ActionMap<T> &map)
             :_actionMap(map)
-            {}
+    {}
 
     template<typename T>
     bool ActionTarget<T>::processEvent(const sf::Event &event) const
@@ -29,7 +30,7 @@ namespace book
         {
             const Action &action = _actionMap.get(pair.first);
             if(action.test())
-                pair.second(action._event);
+                pair.second(action.get_event());
         }
     }
 
@@ -37,7 +38,7 @@ namespace book
     void ActionTarget<T>::bind(const T &key, const FuncType &callback)
     {
         const Action &action = _actionMap.get(key);
-        if(action._type & Action::Type::RealTime)
+        if(action.get_type() & Action::Type::RealTime)
             _eventsRealTime.emplace_back(key,callback);
         else
             _eventsPoll.emplace_back(key,callback);
@@ -52,7 +53,7 @@ namespace book
         };
 
         const Action action = _actionMap.get(key);
-        if(action._type & Action::Type::RealTime)
+        if(action.get_type() & Action::Type::RealTime)
             _eventsRealTime.remove_if(remove_func);
         else;
         _eventsPoll.remove_if(remove_func);
