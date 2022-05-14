@@ -7,7 +7,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include "ActionTarget.hpp"
 
-class Player : public sf::Drawable , public ActionTarget<int>
+class Player : public sf::Drawable, public book::ActionTarget<int>
 {
 public:
     Player(const Player&) =delete;
@@ -23,6 +23,9 @@ public:
     void update(sf::Time deltaTime);
     void processEvents();
 
+    enum PlayerInputs{UP,LEFT,RIGHT};
+    static void setDefaultInputs();
+
 private:
 
     virtual void draw(sf::RenderTarget &target,sf::RenderStates states) const override;
@@ -30,6 +33,8 @@ private:
     sf::Vector2f        _velocity;
     bool _isMoving;
     int _rotation;
+
+    static ActionMap<int> _playerInputs;
 };
 
 #endif //ARCHI_PLAYER_HPP

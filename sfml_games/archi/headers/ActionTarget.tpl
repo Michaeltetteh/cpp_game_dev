@@ -1,56 +1,61 @@
-template<typename T>
-ActionTarget<T>::ActionTarget<T>(const Action<T> &map)
-        :_actionMap(map)
-        {}
-
-template<typename T>
-bool ActionTarget<T>::processEvent(const sf::Event &event) const
+namespace book
 {
-    bool res = false;
-    for(auto &pair :_eventsPoll)
+
+    template<typename T>
+    ActionTarget<T>::ActionTarget<T>(const ActionMap<T> &map)
+            :_actionMap(map)
+            {}
+
+    template<typename T>
+    bool ActionTarget<T>::processEvent(const sf::Event &event) const
     {
-        if(_actionMap.get(pair.first) == event)
+        bool res = false;
+        for(auto &pair :_eventsPoll)
         {
-            pair.second(event);
-            res = true;
-            break;
+            if(_actionMap.get(pair.first) == event)
+            {
+                pair.second(event);
+                res = true;
+                break;
+            }
+        }
+        return res;
+    }
+
+    template<typename T>
+    void ActionTarget<T>::processEvents() const
+    {
+        for(auto &pair :_eventsRealTime)
+        {
+            const Action &action = _actionMap.get(pair.first);
+            if(action.test())
+                pair.second(action._event);
         }
     }
-    return res;
-}
 
-template<typename T>
-void ActionTarget<T>::processEvents() const
-{
-    for(auto &pair :_eventsRealTime)
+    template<typename T>
+    void ActionTarget<T>::bind(const T &key, const FuncType &callback)
     {
-        const Action &action = _actionMap.get(pair.first);
-        if(action.test())
-            pair.second(action._event);
+        const Action &action = _actionMap.get(key);
+        if(action._type & Action::Type::RealTime)
+            _eventsRealTime.emplace_back(key,callback);
+        else
+            _eventsPoll.emplace_back(key,callback);
     }
-}
 
-template<typename T>
-void ActionTarget<T>::bind(const T &key, const FuncType &callback)
-{
-    const Action &action = _actionMap.get(key);
-    if(action._type & Action::Type::RealTime)
-        _eventsRealTime.emplace_back(key,callback);
-    else
-        _eventsPoll.emplace_back(key,callback);
-}
-
-template<typename T>
-void ActionTarget<T>::unbind(const T &key)
-{
-    auto remove_func = [&key](const std::pair<T,FuncType> &pair) ->bool
+    template<typename T>
+    void ActionTarget<T>::unbind(const T &key)
     {
-        return pair.first == key;
-    };
+        auto remove_func = [&key](const std::pair<T,FuncType> &pair) ->bool
+        {
+            return pair.first == key;
+        };
 
-    const Action action = _actionMap.get(key);
-    if(action._type & Action::Type::RealTime)
-        _eventsRealTime.remove_if(remove_func);
-    else;
-    _eventsPoll.remove_if(remove_func);
+        const Action action = _actionMap.get(key);
+        if(action._type & Action::Type::RealTime)
+            _eventsRealTime.remove_if(remove_func);
+        else;
+        _eventsPoll.remove_if(remove_func);
+    }
+
 }

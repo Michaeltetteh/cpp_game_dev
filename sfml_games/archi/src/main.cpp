@@ -1,7 +1,7 @@
 //
 // Created by mike on 13/05/2022.
 //
-#include "headers/Game.hpp"
+#include "../headers/Game.hpp"
 
 int main(int args, char *argv[])
 {

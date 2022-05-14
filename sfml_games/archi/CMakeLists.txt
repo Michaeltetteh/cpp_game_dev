@@ -3,9 +3,23 @@ project(archi)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES  main.cpp src/Game.cpp src/Player.cpp src/Action.cpp src/ActionTarget.cpp)
+set(SOURCE_FILES
+        src/main.cpp
+        src/Game.cpp
+        src/Player.cpp
+        src/Action.cpp
+)
 
-set(HEADER_FILES headers/Game.hpp headers/Player.hpp headers/Action.hpp headers/ActionTarget.hpp headers/ActionMap.hpp)
+set(HEADER_FILES
+        headers/Game.hpp
+        headers/Player.hpp
+        headers/Action.hpp
+        headers/ActionTarget.hpp
+        headers/ActionTarget.tpl
+        headers/ActionMap.hpp
+        headers/ActionMap.tpl
+)
+
 add_executable(archi ${SOURCE_FILES}  ${HEADER_FILES})
 
 include_directories(/usr/local/include)
