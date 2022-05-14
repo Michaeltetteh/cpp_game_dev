@@ -2,7 +2,7 @@
 #define ARCHI_GAME_HPP
 
 #include <SFML/Graphics/RenderWindow.hpp>
-#include "player.hpp"
+#include "Player.hpp"
 
 class Game
 {

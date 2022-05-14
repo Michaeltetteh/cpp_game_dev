@@ -1,4 +1,4 @@
-#include "../headers/game.hpp"
+#include "../headers/Game.hpp"
 #include <iostream>
 #include <SFML/Window/Event.hpp>
 

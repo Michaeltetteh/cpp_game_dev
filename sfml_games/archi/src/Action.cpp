@@ -1,4 +1,4 @@
-#include "../headers/action.hpp"
+#include "../headers/Action.hpp"
 
 Action::Action(const Action &other)
     :_type(other._type)
