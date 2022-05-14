@@ -4,21 +4,35 @@
 
 
 Player::Player()
-    : _shape(sf::Vector2f(32,32))
+    : _shape(sf::Vector2f(32,32)),
+        _isMoving(false),
+        _rotation(0)
     {
         _shape.setFillColor(sf::Color::Blue);
         _shape.setOrigin(16,16);
+
+        bind(Action(sf::Keyboard::Up),[this](const sf::Event&){
+            _isMoving = true;
+        });
+
+        bind(Action(sf::Keyboard::Left),[this](const sf::Event&){
+            _rotation -= 1;
+        });
+
+        bind(Action(sf::Keyboard::Right),[this](const sf::Event&){
+            _rotation += 1;
+        });
     }
 
 void Player::update(sf::Time deltaTime)
 {
     float seconds = deltaTime.asSeconds();
-    if(rotation != 0)
+    if(_rotation != 0)
     {
-        float angle = rotation * 180 * seconds;
+        float angle = _rotation * 180 * seconds;
         _shape.rotate(angle);
     }
-    if(isMoving)
+    if(_isMoving)
     {
         float angle = _shape.getRotation() / 180 * M_PI - M_PI / 2;
         _velocity += sf::Vector2f(std::cos(angle),std::sin(angle)) * 60.f * seconds;
@@ -33,8 +47,7 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 void Player::processEvents()
 {
-    isMoving = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
-    rotation = 0;
-    rotation -= sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
-    rotation += sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
+    _isMoving = false;
+    _rotation = 0;
+    ActionTarget::processEvents();
 }

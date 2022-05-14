@@ -5,8 +5,9 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include "actionTarget.hpp"
 
-class Player : public sf::Drawable
+class Player : public sf::Drawable , public ActionTarget
 {
 public:
     Player(const Player&) =delete;
@@ -27,8 +28,8 @@ private:
     virtual void draw(sf::RenderTarget &target,sf::RenderStates states) const override;
     sf::RectangleShape  _shape;
     sf::Vector2f        _velocity;
-    bool isMoving;
-    int rotation;
+    bool _isMoving;
+    int _rotation;
 };
 
 #endif //ARCHI_PLAYER_HPP
