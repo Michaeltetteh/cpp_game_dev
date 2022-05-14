@@ -18,7 +18,8 @@ set(HEADER_FILES
         headers/ActionTarget.tpl
         headers/ActionMap.hpp
         headers/ActionMap.tpl
-)
+        headers/ResourceManager.hpp
+        headers/ResourceManager.tpl)
 
 add_executable(archi ${SOURCE_FILES}  ${HEADER_FILES})
 

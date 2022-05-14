@@ -6,7 +6,7 @@ Game::Game()
     :_window(sf::VideoMode(800,600),"Archi")
      {
 //        _window.setFramerateLimit(120);
-        _player.setPosition(100,100);
+        _player.setPosition(500,500);
 
      }
 
