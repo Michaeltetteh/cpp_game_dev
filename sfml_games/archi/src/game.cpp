@@ -1,5 +1,6 @@
-#include "../headers/game.h"
+#include "../headers/game.hpp"
 #include <iostream>
+#include <SFML/Window/Event.hpp>
 
 Game::Game()
     :_window(sf::VideoMode(800,600),"Archi"),
@@ -100,23 +101,9 @@ void Game::processEvents()
         {
             if(event.key.code == sf::Keyboard::Escape)
                 _window.close();
-            else if(event.key.code == sf::Keyboard::Up)
-                _player.isMoving = true;
-            else if(event.key.code == sf::Keyboard::Left)
-                _player.rotation = -1;
-            else if(event.key.code == sf::Keyboard::Right)
-                _player.rotation = 1;
-        }
-        else if(event.type == sf::Event::KeyReleased)
-        {
-            if(event.key.code == sf::Keyboard::Up)
-                _player.isMoving = false;
-            else if(event.key.code == sf::Keyboard::Left)
-                _player.rotation = 0;
-            else if(event.key.code == sf::Keyboard::Right)
-                _player.rotation = 0;
         }
     }
+    _player.processEvents();
 }
 
 void Game::update(sf::Time deltaTime) {}

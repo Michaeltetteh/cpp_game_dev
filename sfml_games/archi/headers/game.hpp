@@ -1,8 +1,8 @@
-#ifndef ARCHI_GAME_H
-#define ARCHI_GAME_H
+#ifndef ARCHI_GAME_HPP
+#define ARCHI_GAME_HPP
 
-#include <SFML/Graphics.hpp>
-#include "player.h"
+#include <SFML/Graphics/RenderWindow.hpp>
+#include "player.hpp"
 
 class Game
 {
@@ -30,4 +30,4 @@ private:
     void update_player(float x,sf::Color color);
 };
 
-#endif //ARCHI_GAME_H
+#endif //ARCHI_GAME_HPP

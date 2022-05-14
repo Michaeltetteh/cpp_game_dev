@@ -1,5 +1,5 @@
 #include <cmath>
-#include "../headers/player.h"
+#include "../headers/player.hpp"
 
 
 Player::Player()
@@ -14,7 +14,7 @@ void Player::update(sf::Time deltaTime)
     float seconds = deltaTime.asSeconds();
     if(rotation != 0)
     {
-        float angle = (rotation > 0 ?1 :-1) * 180 * seconds;
+        float angle = rotation * 180 * seconds;
         _shape.rotate(angle);
     }
     if(isMoving)
@@ -30,3 +30,10 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
     target.draw(_shape,states);
 }
 
+void Player::processEvents()
+{
+    isMoving = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
+    rotation = 0;
+    rotation -= sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
+    rotation += sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
+}

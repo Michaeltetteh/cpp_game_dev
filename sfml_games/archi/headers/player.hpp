@@ -1,7 +1,10 @@
-#ifndef ARCHI_PLAYER_H
-#define ARCHI_PLAYER_H
+#ifndef ARCHI_PLAYER_HPP
+#define ARCHI_PLAYER_HPP
 
-#include <SFML/Graphics.hpp>
+
+#include <SFML/Graphics/Drawable.hpp>
+#include <SFML/System/Time.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 
 class Player : public sf::Drawable
 {
@@ -17,13 +20,15 @@ public:
     }
 
     void update(sf::Time deltaTime);
-    bool isMoving;
-    int rotation;
+    void processEvents();
 
 private:
+
     virtual void draw(sf::RenderTarget &target,sf::RenderStates states) const override;
     sf::RectangleShape  _shape;
     sf::Vector2f        _velocity;
+    bool isMoving;
+    int rotation;
 };
 
-#endif //ARCHI_PLAYER_H
+#endif //ARCHI_PLAYER_HPP
