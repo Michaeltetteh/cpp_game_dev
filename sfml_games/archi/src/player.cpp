@@ -1,4 +1,5 @@
 #include <cmath>
+#include <SFML/Window/Keyboard.hpp>
 #include "../headers/player.hpp"
 
 
