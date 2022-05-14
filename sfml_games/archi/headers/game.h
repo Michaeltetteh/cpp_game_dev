@@ -2,6 +2,7 @@
 #define ARCHI_GAME_H
 
 #include <SFML/Graphics.hpp>
+#include "player.h"
 
 class Game
 {
@@ -20,7 +21,8 @@ private:
     void update(sf::Time deltaTime);
     void render();
     sf::RenderWindow _window;
-    sf::CircleShape _player;
+//    sf::CircleShape _player;
+    Player _player;
 
     //for do_animations
     bool direction = true;
