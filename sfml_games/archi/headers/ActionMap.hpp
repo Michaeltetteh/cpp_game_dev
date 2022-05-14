@@ -16,7 +16,7 @@ public:
     const Action &get(const T &key) const;
 
 private:
-    std::unordered_map<Action,T> _map;
+    std::unordered_map<T,Action> _map;
 };
 
 #include "ActionMap.tpl"
