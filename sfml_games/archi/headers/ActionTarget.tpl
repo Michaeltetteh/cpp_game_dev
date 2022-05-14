@@ -31,6 +31,7 @@ namespace book
             const Action &action = _actionMap.get(pair.first);
             if(action.test())
                 pair.second(action.get_event());
+                auto ev =pair.second;
         }
     }
 

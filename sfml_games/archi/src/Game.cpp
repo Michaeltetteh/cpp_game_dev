@@ -106,7 +106,10 @@ void Game::processEvents()
     _player.processEvents();
 }
 
-void Game::update(sf::Time deltaTime) {}
+void Game::update(sf::Time deltaTime)
+{
+    _player.update(deltaTime);
+}
 
 void Game::render()
 {

@@ -7,6 +7,7 @@
 #include <utility>
 #include "Action.hpp"
 #include "ActionMap.hpp"
+#include <iostream>
 
 namespace book
 {
