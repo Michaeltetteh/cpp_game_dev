@@ -61,4 +61,8 @@ void Player::setDefaultInputs()
     _playerInputs.map(PlayerInputs::LEFT,Action(sf::Keyboard::Left));
 }
 
+const sf::Vector2f &Player::getPosition() const {
+    return _ship.getPosition();
+}
+
 ActionMap<int> Player::_playerInputs;

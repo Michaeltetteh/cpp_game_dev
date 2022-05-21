@@ -26,6 +26,7 @@ public:
 
     enum PlayerInputs{UP,LEFT,RIGHT};
     static void setDefaultInputs();
+    const sf::Vector2f &getPosition() const;
 
 private:
 

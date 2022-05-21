@@ -2,13 +2,14 @@
 #include <iostream>
 #include <SFML/Window/Event.hpp>
 
-Game::Game()
-    :_window(sf::VideoMode(800,600),"Asteroid")
-     {
-//        _window.setFramerateLimit(120);
-        _player.setPosition(500,500);
 
-     }
+Game::Game(int x, int y)
+    :_window(sf::VideoMode(x,y),"Asteroid"),
+    _x{x},_y{y}
+    {
+        _player.setPosition(100,100);
+    }
+
 
 void Game::run_vts(bool animate)
 {
@@ -109,6 +110,23 @@ void Game::processEvents()
 void Game::update(sf::Time deltaTime)
 {
     _player.update(deltaTime);
+    sf::Vector2f player_pos = _player.getPosition();
+    if(player_pos.x < 0)
+    {
+        player_pos.x = _x;
+        player_pos.y = _y - player_pos.y;
+    }
+    else if(player_pos.x > _x)
+    {
+        player_pos.x = 0;
+        player_pos.y = _y - player_pos.y;
+    }
+    if(player_pos.y < 0)
+        player_pos.y = _y;
+    else if(player_pos.y > _y)
+        player_pos.y = 0;
+
+    _player.setPosition(player_pos);
 }
 
 void Game::render()
