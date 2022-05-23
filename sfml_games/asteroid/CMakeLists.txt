@@ -19,7 +19,7 @@ set(HEADER_FILES
         headers/ActionMap.hpp
         headers/ActionMap.tpl
         headers/ResourceManager.hpp
-        headers/ResourceManager.tpl headers/Configuration.hpp headers/World.hpp)
+        headers/ResourceManager.tpl headers/Configuration.hpp headers/World.hpp src/World.cpp)
 
 add_executable(asteroid ${SOURCE_FILES}  ${HEADER_FILES})
 

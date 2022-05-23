@@ -21,7 +21,7 @@ public:
     int size();
     void add(Configuration::Sounds sound_id);
 
-    const std::list<Entity*> getEntities() const;
+    const std::list<Entity *> getEntities() const;
     int getX() const;
     int getY() const;
     void update(sf::Time deltaTime);
