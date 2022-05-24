@@ -7,37 +7,30 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include "ActionTarget.hpp"
+#include "Entity.hpp"
+#include "../headers/Collision.hpp"
 
-class Player : public sf::Drawable, public book::ActionTarget<int>
+class Player : public Entity, public asteroid::ActionTarget<int>
 {
 public:
     Player(const Player&) =delete;
     Player &operator=(const Player&) = delete;
-    Player();
+    Player(World &world);
 
-    template<typename ...Args>
-    void setPosition(Args&& ...args)
-    {
-        _ship.setPosition(std::forward<Args>(args)...);
-    }
+    virtual bool isCollide(const Entity &other) const;
+    virtual void update(sf::Time deltaTime);
+    void shoot();
+    void goToHyperspace();
+    virtual void onDestroy();
 
-    void update(sf::Time deltaTime);
     void processEvents();
 
-    enum PlayerInputs{UP,LEFT,RIGHT};
-    static void setDefaultInputs();
-    const sf::Vector2f &getPosition() const;
 
 private:
-
-    virtual void draw(sf::RenderTarget &target,sf::RenderStates states) const override;
-
-    sf::Sprite  _ship;
-    sf::Vector2f        _velocity;
     bool _isMoving;
     int _rotation;
+    sf::Time _timeSinceLastShoot;
 
-    static ActionMap<int> _playerInputs;
 };
 
-#endif //ARCHI_PLAYER_HPP
+#endif

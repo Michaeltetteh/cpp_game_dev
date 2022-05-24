@@ -17,13 +17,13 @@ void World::clear()
     _entities.clear();
     for(Entity *entity : _entities_tmp)
         delete entity;
-    _entities_tmp.clear()
+    _entities_tmp.clear();
     _sounds.clear();
 }
 
-void World::add(Configuration::Sounds sound_id)
+void World::add(asteroid::Configuration::Sounds sound_id)
 {
-    std::unique_ptr<sf::Sound> sound(new sf::Sound(Configuration::Sounds.get(sound_id)));
+    std::unique_ptr<sf::Sound> sound(new sf::Sound(asteroid::Configuration::Sounds.get(sound_id)));
     sound->setAttenuation(0);
     sound->play();
     _sounds.emplace_back(std::move(sound));
@@ -52,7 +52,7 @@ int World::getY() const {return _y;}
 
 void World::update(sf::Time deltaTime)
 {
-    if(_entities_tmp.ssize() > 0)
+    if(_entities_tmp.size() > 0)
         _entities.merge(_entities_tmp);
     for(Entity * entity_ptr : _entities)
     {

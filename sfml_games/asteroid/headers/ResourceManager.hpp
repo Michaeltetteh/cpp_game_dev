@@ -7,7 +7,7 @@ class Music;
 #include <unordered_map>
 #include <SFML/Audio.hpp>
 
-namespace book
+namespace asteroid
 {
     template<typename RESOURCE,typename IDENTIFIER = int>
     class ResourceManager

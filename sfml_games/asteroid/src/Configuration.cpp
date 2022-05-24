@@ -1,7 +1,7 @@
 #include "../headers/Configuration.hpp"
-using namespace book;
+using namespace asteroid;
 
-book::ResourceManager<sf::Texture,int> Configuration::textures;
+asteroid::ResourceManager<sf::Texture,int> Configuration::textures;
 ActionMap<int> Configuration::player_inputs;
 
 void Configuration::initialize()

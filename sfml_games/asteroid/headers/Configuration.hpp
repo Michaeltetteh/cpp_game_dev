@@ -5,7 +5,7 @@
 #include "ResourceManager.hpp"
 #include <SFML/Graphics.hpp>
 #include "ActionMap.hpp"
-namespace book
+namespace asteroid
 {
     class Configuration
     {
@@ -15,7 +15,7 @@ namespace book
         Configuration &operator=(const Configuration&) = delete;
 
         enum Texture : int {Player};
-        static book::ResourceManager<sf::Texture,int> textures;
+        static asteroid::ResourceManager<sf::Texture,int> textures;
 
         enum PlayerInputs: int{UP,LEFT,RIGHT};
         static ActionMap<int> player_inputs;

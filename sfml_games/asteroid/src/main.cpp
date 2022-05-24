@@ -4,7 +4,7 @@
 
 int main(int args, char *argv[])
 {
-    book::Configuration::initialize();
+    asteroid::Configuration::initialize();
 
 //    Player::setDefaultInputs();
     Game game;

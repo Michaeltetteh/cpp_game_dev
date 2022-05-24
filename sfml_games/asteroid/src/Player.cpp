@@ -3,66 +3,81 @@
 #include "../headers/Player.hpp"
 #include "../headers/Configuration.hpp"
 
-Player::Player()
-    : ActionTarget(book::Configuration::player_inputs),
+Player::Player(World &world)
+    : Entity(asteroid::Configuration::Texture::Player,world),
+      ActionTarget(asteroid::Configuration::player_inputs),
       _isMoving(false),
       _rotation(0)
     {
-//        _shape.setFillColor(sf::Color::Blue);
-        _ship.setTexture(book::Configuration::textures.get(book::Configuration::Texture::Player));
-        _ship.setOrigin(16,16);
-
-        bind(PlayerInputs::UP,[this](const sf::Event&){
+        bind(asteroid::Configuration::PlayerInputs::UP,[this](const sf::Event&){
             _isMoving = true;
         });
 
-        bind(PlayerInputs::LEFT,[this](const sf::Event&){
+        bind(asteroid::Configuration::PlayerInputs::LEFT,[this](const sf::Event&){
             _rotation -= 1;
         });
 
-        bind(PlayerInputs::RIGHT,[this](const sf::Event&){
+        bind(asteroid::Configuration::PlayerInputs::RIGHT,[this](const sf::Event&){
             _rotation += 1;
         });
+
+        bind(asteroid::Configuration::PlayerInputs::Shoot,[this](const sf::Event&){
+            shoot();
+        });
+        bind(asteroid::Configuration::PlayerInputs::Hyperspace,[this](const sf::Event&){
+           goToHyperspace();
+        });
     }
+
+bool Player::isCollide(const Entity &other) const
+{
+    if (dynamic_cast<const ShootPlayer *>(&other) == nullptr)
+        return Collision::circleTest(_sprite, other._sprite);
+    return false;
+}
+
+void Player::shoot()
+{
+    if(_timeSinceLastShoot > sf::seconds(0.3))
+    {
+        _world.add(new ShootPlayer(*this));
+        _timeSinceLastShoot = sf::Time::Zero;
+    }
+}
+
+void Player::goToHyperspace()
+{
+    _impulse = sf::Vector2f(0,0);
+    setPosition(random(0,_world.getX()),random(0,_world.getY()));
+    _world.add(asteroid::Configuration::Sounds::Jump);
+}
 
 void Player::update(sf::Time deltaTime)
 {
     float seconds = deltaTime.asSeconds();
+    _timeSinceLastShoot += deltaTime;
     if(_rotation != 0)
     {
-        float angle = _rotation * 180 * seconds;
-        _ship.rotate(angle);
+        float angle = _rotation * 250 * seconds;
+        _sprite.rotate(angle);
     }
     if(_isMoving)
     {
-        float angle = _ship.getRotation() / 180 * M_PI - M_PI / 2;
-        _velocity += sf::Vector2f(std::cos(angle),std::sin(angle)) * 60.f * seconds;
+        float angle = _sprite.getRotation() / 180 * M_PI - M_PI / 2;
+        _impulse += sf::Vector2f(std::cos(angle),std::sin(angle)) * 300.f * seconds;
     }
-    _ship.move(seconds * _velocity);
+    _sprite.move(seconds * _impulse);
 }
 
-void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void Player::onDestroy()
 {
-    target.draw(_ship,states);
+    Entity::onDestroy();
+    asteroid::Configuration::lives--;
+    _world.add(asteroid::Configuration::Sounds::Boom);
 }
-
-
 void Player::processEvents()
 {
     _isMoving = false;
     _rotation = 0;
     ActionTarget::processEvents();
 }
-
-void Player::setDefaultInputs()
-{
-    _playerInputs.map(PlayerInputs::UP,Action(sf::Keyboard::Up));
-    _playerInputs.map(PlayerInputs::RIGHT,Action(sf::Keyboard::Right));
-    _playerInputs.map(PlayerInputs::LEFT,Action(sf::Keyboard::Left));
-}
-
-const sf::Vector2f &Player::getPosition() const {
-    return _ship.getPosition();
-}
-
-ActionMap<int> Player::_playerInputs;

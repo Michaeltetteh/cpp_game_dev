@@ -9,7 +9,7 @@
 #include "ActionMap.hpp"
 #include <iostream>
 
-namespace book
+namespace asteroid
 {
     template<typename T=int>
     class ActionTarget

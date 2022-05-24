@@ -5,6 +5,8 @@
 #include <SFML/System/Time.hpp>
 #include <list>
 #include <SFML/Audio/Sound.hpp>
+#include "Entity.hpp"
+#include "Configuration.hpp"
 
 class World : public sf::Drawable
 {

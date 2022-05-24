@@ -1,4 +1,4 @@
-namespace book
+namespace asteroid
 {
     template<typename RESOURCE,typename IDENTIFIER>
     template<typename ...Args>
