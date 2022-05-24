@@ -2,14 +2,18 @@
 #define ASTEROID_COLLISION_HPP
 
 #include <SFML/Graphics/Sprite.hpp>
-
-class Collision
+namespace asteroid
 {
-    Collision() = delete;
-    Collision(const Collision &) = delete;
-    Collision &operator=(const Collision&) = delete;
+    class Collision
+    {
+    public:
+        Collision() = delete;
+        Collision(const Collision &) = delete;
+        Collision &operator=(const Collision&) = delete;
 
-    static bool circleTest(const sf::Sprite &first,const sf::Sprite &second);
-};
+        static bool circleTest(const sf::Sprite &first,const sf::Sprite &second);
+    };
+
+}
 
 #endif

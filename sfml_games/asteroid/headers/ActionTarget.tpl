@@ -1,17 +1,15 @@
 namespace asteroid
 {
-
-
-    template<typename T>
-    ActionTarget<T>::ActionTarget(const ActionMap<T> &map)
-            :_actionMap(map)
-    {}
+   template<typename T>
+    ActionTarget<T>::ActionTarget(const ActionMap<T>& map) : _actionMap(map)
+    {
+    }
 
     template<typename T>
-    bool ActionTarget<T>::processEvent(const sf::Event &event) const
+    bool ActionTarget<T>::processEvent(const sf::Event& event)const
     {
         bool res = false;
-        for(auto &pair :_eventsPoll)
+        for(auto& pair : _eventsPoll)
         {
             if(_actionMap.get(pair.first) == event)
             {
@@ -24,40 +22,39 @@ namespace asteroid
     }
 
     template<typename T>
-    void ActionTarget<T>::processEvents() const
+    void ActionTarget<T>::processEvents()const
     {
-        for(auto &pair :_eventsRealTime)
+        for(auto& pair : _eventsRealTime)
         {
-            const Action &action = _actionMap.get(pair.first);
+            const Action& action = _actionMap.get(pair.first);
             if(action.test())
-                pair.second(action.get_event());
-                auto ev =pair.second;
+                pair.second(action._event);
         }
     }
 
     template<typename T>
-    void ActionTarget<T>::bind(const T &key, const FuncType &callback)
+    void ActionTarget<T>::bind(const T& key,const FuncType& callback)
     {
-        const Action &action = _actionMap.get(key);
-        if(action.get_type() & Action::Type::RealTime)
+        const Action& action = _actionMap.get(key);
+        if(action._type & Action::Type::RealTime)
             _eventsRealTime.emplace_back(key,callback);
         else
             _eventsPoll.emplace_back(key,callback);
     }
 
     template<typename T>
-    void ActionTarget<T>::unbind(const T &key)
+    void ActionTarget<T>::unbind(const T& key)
     {
-        auto remove_func = [&key](const std::pair<T,FuncType> &pair) ->bool
+        auto remove_func = [&key](const std::pair<T,FuncType>& pair) -> bool
         {
             return pair.first == key;
         };
 
-        const Action action = _actionMap.get(key);
-        if(action.get_type() & Action::Type::RealTime)
+        const Action& action = _actionMap.get(key);
+        if(action._type & Action::Type::RealTime)
             _eventsRealTime.remove_if(remove_func);
-        else;
-        _eventsPoll.remove_if(remove_func);
+        else
+            _eventsPoll.remove_if(remove_func);
     }
 
 }

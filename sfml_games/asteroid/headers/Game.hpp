@@ -3,31 +3,33 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "Player.hpp"
-
-class Game
+namespace asteroid
 {
-public:
-    Game(const Game &) = delete;
-    Game &operator=(const Game &) = delete;
 
-    Game(int x=800,int y=600);
-    void run_vts(bool animate=false); //using variable time steps
-    void run_fts(bool animate=false,int fps=60); //using fixed time steps
-    void run_mts(bool animate=false,int minimum_frame_per_second=60); //using minimum time steps
+    class Game
+    {
+    public:
+        Game(const Game &) = delete;
+        Game &operator=(const Game &) = delete;
 
-//    void do_animation(sf::Time deltaTime);
+        Game(int x=800,int y=600);
+        void run(int minimum_frame_per_second=60); //using minimum time steps
 
-private:
-    void processEvents();
-    void update(sf::Time deltaTime);
-    void render();
-    sf::RenderWindow _window;
-    const int _x, _y;
-    Player _player;
+        void initLevel();
 
-    //for do_animations
-    bool direction = true;
-    const float rThresh = 150;
-};
+    private:
+        void processEvents();
+        void update(sf::Time deltaTime);
+        void render();
 
-#endif //ARCHI_GAME_HPP
+        void reset();
+
+        sf::RenderWindow _window;
+        World _world;
+
+        sf::Time   _nextSaucer;
+        sf::Text   _txt;
+    };
+
+}
+#endif

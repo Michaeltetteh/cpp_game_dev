@@ -1,138 +1,151 @@
 #include "../headers/Game.hpp"
-#include <iostream>
-#include <SFML/Window/Event.hpp>
+#include "../headers/Meteor.hpp"
+#include "../headers/Saucer.hpp"
 
-
-Game::Game(int x, int y)
-    :_window(sf::VideoMode(x,y),"Asteroid"),
-    _x{x},_y{y}
+namespace asteroid
+{
+    Game::Game(int X, int Y) : _window(sf::VideoMode(X,Y),"Asteroid"), _world(X,Y)
     {
-        _player.setPosition(100,100);
+        _txt.setFont(Configuration::fonts.get(Configuration::Fonts::Gui));
+        _txt.setCharacterSize(70);
+        _txt.setString("Press any Key to start");
+
+        sf::FloatRect size = _txt.getGlobalBounds();
+        _txt.setOrigin(size.width/2,size.height/2);
+        _txt.setPosition(X/2,Y/2);
     }
 
-
-void Game::run_vts(bool animate)
-{
-    sf::Clock clock;
-    while (_window.isOpen())
+    void Game::run(int minimum_frame_per_seconds)
     {
-        processEvents();
-//        if(!animate)
-        update(clock.restart());
-//        else
-//            do_animation(clock.restart());
-        render();
-    }
-}
+        sf::Clock clock;
+        sf::Time timeSinceLastUpdate;
+        sf::Time TimePerFrame = sf::seconds(1.f/minimum_frame_per_seconds);
 
-void Game::run_mts(bool animate,int minimum_frame_per_second)
-{
-    sf::Clock clock;
-    sf::Time timeSinceLastUpdate;
-    sf::Time TimePerFrame = sf::seconds(1.0f/minimum_frame_per_second);
-
-    while (_window.isOpen())
-    {
-        processEvents();
-        timeSinceLastUpdate = clock.restart();
-        while (timeSinceLastUpdate > TimePerFrame)
+        while (_window.isOpen())
         {
-            timeSinceLastUpdate -= TimePerFrame;
-            update(TimePerFrame);
-//            animate ? do_animation(TimePerFrame) :update(TimePerFrame);
-        }
-        update(timeSinceLastUpdate);
-//        animate ? do_animation(timeSinceLastUpdate) :update(timeSinceLastUpdate);
-        render();
-    }
-}
+            processEvents();
 
-void Game::run_fts(bool animate,int fps)
-{
-    sf::Clock clock;
-    sf::Time timeSinceLastUpdate = sf::Time::Zero;
-    sf::Time TimePerFrame = sf::seconds(1.0f/fps);
+            timeSinceLastUpdate = clock.restart();
+            while (timeSinceLastUpdate > TimePerFrame)
+            {
+                timeSinceLastUpdate -= TimePerFrame;
+                update(TimePerFrame);
+            }
 
-    while(_window.isOpen())
-    {
-        processEvents();
-        bool repaint = false;
-        timeSinceLastUpdate += clock.restart();
-        while(timeSinceLastUpdate > TimePerFrame)
-        {
-            timeSinceLastUpdate -= TimePerFrame;
-            repaint = true;
-            update(TimePerFrame);
-//            !animate ?update(TimePerFrame) :do_animation(TimePerFrame);
-        }
-        if(repaint)
+            update(timeSinceLastUpdate);
             render();
-    }
-}
-
-//void Game::update_player(float x, sf::Color color)
-//{
-//    _player.setRadius(_player.getRadius() + x);
-//    _player.setFillColor(color);
-//}
-
-//void Game::do_animation(sf::Time deltaTime)
-//{
-//    if(_player.getRadius() <= rThresh && direction)
-//        update_player(0.5f,sf::Color::Blue);
-//    else if(_player.getRadius() != 0)
-//    {
-//        direction = false;
-//        update_player(-0.5f,sf::Color::Green);
-//    }
-//    else
-//        direction = true;
-//   std::cout<<_player.getRadius()<<"\n";
-//    std::cout<<deltaTime.asSeconds()<<"\n";
-//}
-
-void Game::processEvents()
-{
-    sf::Event event;
-    while(_window.pollEvent(event))
-    {
-        if(event.type == sf::Event::Closed)
-            _window.close();
-        else if(event.type == sf::Event::KeyPressed)
-        {
-            if(event.key.code == sf::Keyboard::Escape)
-                _window.close();
         }
     }
-    _player.processEvents();
-}
 
-void Game::update(sf::Time deltaTime)
-{
-    _player.update(deltaTime);
-    sf::Vector2f player_pos = _player.getPosition();
-    if(player_pos.x < 0)
+    void Game::initLevel()
     {
-        player_pos.x = _x;
-        player_pos.y = _y - player_pos.y;
+        int nb_meteors;
+        switch(Configuration::level)
+        {
+            case 1 : nb_meteors = 4;break;
+            case 2 : nb_meteors = 5;break;
+            case 3 : nb_meteors = 7;break;
+            case 4 : nb_meteors = 9;break;
+            default : nb_meteors = 11;break;
+        }
+        for(int i = 0; i<nb_meteors;++i)
+        {
+            Meteor* meteor = new BigMeteor(_world);
+            do{
+                meteor->setPosition(random(0.f,(float)_world.getX()),random(0.f,(float)_world.getY()));
+            }while(_world.isCollide(*meteor));
+            _world.add(meteor);
+        }
     }
-    else if(player_pos.x > _x)
+
+    void Game::processEvents()
     {
-        player_pos.x = 0;
-        player_pos.y = _y - player_pos.y;
+        //to store the events
+        sf::Event event;
+        //events loop
+        while(_window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)//Close window
+                _window.close();
+            else if (event.type == sf::Event::KeyPressed) //keyboard input
+            {
+                if (event.key.code == sf::Keyboard::Escape)
+                    _window.close();
+            }
+
+            if(Configuration::isGameOver())
+            {
+                if (event.type == sf::Event::KeyPressed) //keyboard input
+                    reset();
+            }
+            else
+            {
+                if(Configuration::player != nullptr)
+                    Configuration::player->processEvent(event);
+            }
+        }
+        if(not Configuration::isGameOver() and Configuration::player != nullptr)
+            Configuration::player->processEvents();
     }
-    if(player_pos.y < 0)
-        player_pos.y = _y;
-    else if(player_pos.y > _y)
-        player_pos.y = 0;
 
-    _player.setPosition(player_pos);
+
+    void Game::update(sf::Time deltaTime)
+    {
+
+        if(not Configuration::isGameOver())
+        {
+            _world.update(deltaTime);
+            if(Configuration::player == nullptr)
+            {
+                Configuration::player = new Player(_world);
+                Configuration::player->setPosition(_world.getX()/2,_world.getY()/2);
+                _world.add(Configuration::player);
+            }
+            _nextSaucer -= deltaTime;
+
+            if(_nextSaucer < sf::Time::Zero)
+            {
+                Saucer::newSaucer(_world);
+                _nextSaucer = sf::seconds(random(10.f,60.f - Configuration::level*2));
+            }
+
+            if(_world.size() <= 1)
+            {
+                ++Configuration::level;
+                initLevel();
+            }
+        }
+    }
+
+    void Game::render()
+    {
+        //Clear screen
+        _window.clear();
+
+        //Draw
+        if(Configuration::isGameOver())
+        {
+            _window.draw(_txt);
+        }
+        else
+        {
+            _window.draw(_world);
+
+            Configuration::draw(_window);
+        }
+
+        //Update the window
+        _window.display();
+    }
+
+    void Game::reset()
+    {
+        _nextSaucer = sf::seconds(random(5.f,6.f - Configuration::level*2));
+        _world.clear();
+        Configuration::player = nullptr;
+        Configuration::reset();
+        initLevel();
+    }
+
+
 }
-
-void Game::render()
-{
-    _window.clear();
-    _window.draw(_player);
-    _window.display();
-}
-

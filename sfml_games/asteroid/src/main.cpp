@@ -7,8 +7,8 @@ int main(int args, char *argv[])
     asteroid::Configuration::initialize();
 
 //    Player::setDefaultInputs();
-    Game game;
-    game.run_mts(0,60);
+    asteroid::Game game;
+    game.run(60);
 
     return 0;
 }

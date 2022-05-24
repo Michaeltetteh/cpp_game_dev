@@ -11,7 +11,12 @@ set(SOURCE_FILES
         src/Configuration.cpp
         src/World.cpp
         src/Collision.cpp
-        src/Entity.cpp src/Entity.cpp src/Enemy.cpp src/Saucer.cpp)
+        src/Entity.cpp
+        src/Entity.cpp
+        src/Enemy.cpp
+        src/Saucer.cpp
+        src/Meteor.cpp
+        src/Shoot.cpp)
 
 set(HEADER_FILES
         headers/Game.hpp
@@ -26,7 +31,12 @@ set(HEADER_FILES
         headers/Configuration.hpp
         headers/World.hpp
         headers/Collision.hpp
-        headers/Entity.hpp headers/Enemy.hpp headers/Saucer.hpp)
+        headers/Entity.hpp
+        headers/Enemy.hpp
+        headers/Saucer.hpp
+        headers/random.hpp
+        headers/Meteor.hpp
+        headers/Shoot.hpp)
 
 add_executable(asteroid ${SOURCE_FILES}  ${HEADER_FILES})
 
