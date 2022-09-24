@@ -1,0 +1,20 @@
+cmake_minimum_required(VERSION 3.2)
+
+project(sdlgame)
+
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
+
+set(HEADERS_DIR 
+    headers/Game.h
+)
+
+set(SOURCE_FILES
+    src/main.cpp 
+    src/Game.cpp
+)
+
+include_directories(sdlgame ${HEADERS_DIR})
+
+add_executable(sdlgame ${SOURCE_FILES})
+target_link_libraries(sdlgame ${SDL2_LIBRARIES})
