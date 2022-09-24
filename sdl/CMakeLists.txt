@@ -8,7 +8,7 @@ include_directories(${SDL2_INCLUDE_DIRS})
 
 set(HEADERS_DIR 
     headers/Game.h
-    headers/Rect.h
+    headers/Pong.h
 )
 
 set(SOURCE_FILES
