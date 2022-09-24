@@ -17,11 +17,19 @@ bool Game::Initialize()
         SDL_Log("Unable to create window: %s",SDL_GetError());
         return false;
     }
+
+    mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if(!mRenderer) {
+        SDL_Log("Unable to create rederer: %s",SDL_GetError());
+        return false;
+    }
+
     return true;
 }
 
 void Game::Shutdown()
 {
+    SDL_DestroyRenderer(mRenderer);
     SDL_DestroyWindow(mWindow);
     SDL_Quit();
 }
@@ -31,8 +39,8 @@ void Game::RunLoop()
 {
     while(mIsRunning) {
         ProcessInput();
-        // UpdateGame();
-        // GenerateOutput();
+        UpdateGame();
+        GenerateOutput();
     }
 }
 
@@ -58,4 +66,15 @@ void Game::ProcessInput()
 }
 
 
+void Game::UpdateGame()
+{
+    SDL_SetRenderDrawColor(mRenderer, 255,0,0,255); //draw color
+    SDL_RenderClear(mRenderer); // clear back buffer to current draw color
+}
+
+
+void Game::GenerateOutput()
+{   
+    SDL_RenderPresent(mRenderer); //swaps front and back color buffers
+}
 
