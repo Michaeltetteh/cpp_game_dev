@@ -91,6 +91,12 @@ void Pong::UpdateGame()
             mPlayer.x = width - 100.0f;
         if(mPlayer.x < 10.0f)
             mPlayer.x = 10.0f;
+
+        // //Torus implementation
+        // if(mPlayer.x > width)
+        //     mPlayer.x = 10.0f;
+        // if(mPlayer.x < 0)
+        //     mPlayer.x = width;
     }
 
 }
