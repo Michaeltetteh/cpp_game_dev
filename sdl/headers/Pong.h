@@ -2,6 +2,9 @@
 #define PONG_H
 
 #include "Game.h"
+#define NEWLINE     "\n"
+
+#define LOG_INFO(message,...) SDL_Log(message NEWLINE, ##__VA_ARGS__);
 
 const int thickness = 15;
 const float playerH = 100.0f;
@@ -23,13 +26,56 @@ private:
     Vec2 mBallPos;
     Vec2 mBallVelocity;
     int mplayerDirection;
+    // float deltaTime;
+    void Log();
+    SDL_Rect _mTopWall;
+    SDL_Rect _mRightWall;
+    SDL_Rect _mLeftWall;
+    SDL_Rect _mPlayer;
+    SDL_Rect _mBall;
 
 public:
     Pong();
     void UpdateGame() override;
     void GenerateOutput() override;
     void ProcessInput() override;
+    void DetectCollision();
+    void setRects();
 };
+
+void Pong::setRects()
+{
+    _mTopWall = SDL_Rect{
+        0,
+        0, 
+        width,
+        thickness
+    };
+    _mRightWall = SDL_Rect{
+        width - thickness,
+        0,
+        thickness,
+        1024,
+    };
+    _mLeftWall = SDL_Rect{
+        0,
+        0,
+        thickness,
+        768,
+    };
+    _mPlayer = SDL_Rect{
+        static_cast<int>(mPlayer.x),
+        static_cast<int>(mPlayer.y - playerH/2),
+        100,
+        thickness
+    };
+    _mBall = SDL_Rect{
+        static_cast<int>(mBallPos.x - (thickness/2) + mBallVelocity.x),
+        static_cast<int>(mBallPos.y - (thickness/2) + mBallVelocity.y),
+        thickness,
+        thickness
+    };
+}
 
 Pong::Pong() 
     :thickness(15),
@@ -41,10 +87,19 @@ Pong::Pong()
         1024.0f / 2.0f, 
         768.0f / 2.0f
      ),
-     mBallVelocity(-200.0f, 235.0f)
+     mBallVelocity(0, -100.0f)
 {
     Game game;
 }
+
+void Pong::Log()
+{
+    // LOG_INFO("DeltaTime: %f Ticks: %d\n",deltaTime,mTicksCount);
+    LOG_INFO("Player position : X=%f Y=%f\n",mPlayer.x,mPlayer.y);
+    LOG_INFO("Ball position : X=%f Y=%f\n",mBallPos.x,mBallPos.y);
+    LOG_INFO("Ball velocity : X= %f Y=%f\n\n",mBallVelocity.x,mBallVelocity.y);
+}
+
 
 void Pong::ProcessInput()
 {
@@ -86,9 +141,8 @@ void Pong::UpdateGame()
         deltaTime = 0.05f;
     }
 
+    Log();
 
-    // printf("DeltaTime: %f Ticks: %d\n",deltaTime,mTicksCount);
-    printf("Player position : (X= %f Y= %f)\n",mPlayer.x,mPlayer.y);
     if(mplayerDirection != 0)
     {
         mPlayer.x += mplayerDirection * 300.0f * deltaTime;
@@ -104,55 +158,73 @@ void Pong::UpdateGame()
         //     mPlayer.x = width;
     }
 
+    DetectCollision();
+
+    //update ball position
+    mBallPos.x += mBallVelocity.x * deltaTime;
+    mBallPos.y += mBallVelocity.y * deltaTime;
+
+}
+
+void Pong::DetectCollision()
+{
+    // SDL_bool ball_collided_top = SDL_HasIntersection(&_mBall, &_mTopWall);
+    // if(ball_collided_top)
+    // {
+    //     printf("COLLISION AT pos (x:%f  y:%f) vel(x:%f,y:%f)",mBallPos.x,mBallPos.y,mBallVelocity.x,mBallVelocity.y);
+    //     mBallVelocity.y *= -1.0f;   
+    // }
+    if (mBallPos.y <= thickness && mBallVelocity.y < 0.0f)
+    {
+        LOG_INFO("COLLISION AT pos (x:%f  y:%f) vel(x:%f,y:%f)",mBallPos.x,mBallPos.y,mBallVelocity.x,mBallVelocity.y);
+        mBallVelocity.y *= -1.0f; 
+    }  
+
+
+
+    // Bounce if needed
+    // Did we intersect with the paddle?
+    float diff = mPlayer.y - mBallPos.y;
+    // Take absolute value of difference
+    diff = (diff > 0.0f) ? diff : -diff;
+    LOG_INFO("diff %f",diff);
+    if (
+        // Our y-difference is small enough
+        diff <= playerH / 2.0f &&
+        // We are in the correct x-position
+        mBallPos.x <= 512.0f && mBallPos.x >= 20.0f //&&
+        // The ball is moving to the left
+        // mBallVelocity.y < 0.0f
+        )
+    {
+        mBallVelocity.y *= -1.0f;
+    }
+
 }
 
 void Pong::GenerateOutput()
 {
+
+    setRects();
     SDL_SetRenderDrawColor(mRenderer,0,0,255,255);
     SDL_RenderClear(mRenderer);
 
     SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
 
-    SDL_Rect wall{
-        0,
-        0, 
-        width,
-        thickness
-    };
-    SDL_RenderFillRect(mRenderer,&wall);
-
+    SDL_RenderFillRect(mRenderer,&_mTopWall);
 
     // Draw right wall
-    wall.x = width - thickness;
-    wall.y = 0;
-    wall.w = thickness;
-    wall.h = 1024;
-    SDL_RenderFillRect(mRenderer, &wall);
+    SDL_RenderFillRect(mRenderer, &_mRightWall);
 
     // Draw left wall
-    wall.x = 0;
-    wall.y = 0;
-    wall.w = thickness;
-    wall.h = 768;
-    SDL_RenderFillRect(mRenderer, &wall);
+    SDL_RenderFillRect(mRenderer, &_mLeftWall);
 
     // Draw player
-    SDL_Rect player{
-        static_cast<int>(mPlayer.x),
-        static_cast<int>(mPlayer.y - playerH/2),
-        100,
-        thickness
-    };
-    SDL_RenderFillRect(mRenderer, &player);
+    SDL_RenderFillRect(mRenderer, &_mPlayer);
     
     // Draw ball
-    SDL_Rect ball{  
-        static_cast<int>(mBallPos.x - thickness/2),
-        static_cast<int>(mBallPos.y - thickness/2),
-        thickness,
-        thickness
-    };
-    SDL_RenderFillRect(mRenderer, &ball);
+    SDL_RenderFillRect(mRenderer, &_mBall);
+
     SDL_RenderPresent(mRenderer);
 }
 
