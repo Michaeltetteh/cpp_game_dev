@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include "../headers/Game.h"
 #include "../headers/Pong.h"
 
 

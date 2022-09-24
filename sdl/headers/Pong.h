@@ -20,6 +20,15 @@ struct Vec2
 
 class Pong: public Game
 {
+
+public:
+    Pong();
+    void UpdateGame() override;
+    void GenerateOutput() override;
+    void ProcessInput() override;
+    void DetectCollision();
+    void setRects();
+
 private:
     int thickness;
     Vec2 mPlayer;
@@ -34,14 +43,6 @@ private:
     SDL_Rect _mPlayer;
     SDL_Rect _mBall;
     SDL_bool hasCollided(SDL_Rect *A,SDL_Rect *B);
-
-public:
-    Pong();
-    void UpdateGame() override;
-    void GenerateOutput() override;
-    void ProcessInput() override;
-    void DetectCollision();
-    void setRects();
 };
 
 #endif
