@@ -85,7 +85,13 @@ void Pong::UpdateGame()
     // printf("DeltaTime: %f Ticks: %d\n",deltaTime,mTicksCount);
     printf("Player position : (X= %f Y= %f)\n",mPlayer.x,mPlayer.y);
     if(mplayerDirection != 0)
+    {
         mPlayer.x += mplayerDirection * 300.0f * deltaTime;
+        if(mPlayer.x > (width-100.0f))
+            mPlayer.x = width - 100.0f;
+        if(mPlayer.x < 10.0f)
+            mPlayer.x = 10.0f;
+    }
 
 }
 
