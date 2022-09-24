@@ -33,6 +33,7 @@ private:
     SDL_Rect _mLeftWall;
     SDL_Rect _mPlayer;
     SDL_Rect _mBall;
+    SDL_bool hasCollided(SDL_Rect *A,SDL_Rect *B);
 
 public:
     Pong();
@@ -42,6 +43,11 @@ public:
     void DetectCollision();
     void setRects();
 };
+
+SDL_bool Pong::hasCollided(SDL_Rect *A,SDL_Rect *B)
+{
+    return SDL_HasIntersection(A, B);
+}
 
 void Pong::setRects()
 {
@@ -168,37 +174,24 @@ void Pong::UpdateGame()
 
 void Pong::DetectCollision()
 {
-    // SDL_bool ball_collided_top = SDL_HasIntersection(&_mBall, &_mTopWall);
-    // if(ball_collided_top)
-    // {
-    //     printf("COLLISION AT pos (x:%f  y:%f) vel(x:%f,y:%f)",mBallPos.x,mBallPos.y,mBallVelocity.x,mBallVelocity.y);
-    //     mBallVelocity.y *= -1.0f;   
-    // }
-    if (mBallPos.y <= thickness && mBallVelocity.y < 0.0f)
-    {
-        LOG_INFO("COLLISION AT pos (x:%f  y:%f) vel(x:%f,y:%f)",mBallPos.x,mBallPos.y,mBallVelocity.x,mBallVelocity.y);
-        mBallVelocity.y *= -1.0f; 
-    }  
-
-
-
-    // Bounce if needed
-    // Did we intersect with the paddle?
-    float diff = mPlayer.y - mBallPos.y;
-    // Take absolute value of difference
-    diff = (diff > 0.0f) ? diff : -diff;
-    LOG_INFO("diff %f",diff);
-    if (
-        // Our y-difference is small enough
-        diff <= playerH / 2.0f &&
-        // We are in the correct x-position
-        mBallPos.x <= 512.0f && mBallPos.x >= 20.0f //&&
-        // The ball is moving to the left
-        // mBallVelocity.y < 0.0f
-        )
-    {
+    if(hasCollided(&_mBall, &_mTopWall)){
+        printf("COLLISION AT pos (x:%f  y:%f) vel(x:%f,y:%f)",mBallPos.x,mBallPos.y,mBallVelocity.x,mBallVelocity.y);
+        mBallVelocity.y *= -1.0f;   
+    }
+    else if (hasCollided(&_mBall, &_mPlayer)){
         mBallVelocity.y *= -1.0f;
     }
+    //ball off screen
+    else if (mBallPos.y > (height - thickness)){
+        mIsRunning = false;
+    }
+    else if (hasCollided(&_mBall, &_mRightWall)){
+        mBallVelocity.x *= -1.0f;
+    }
+    else if (hasCollided(&_mBall,&_mLeftWall)){
+        mBallVelocity.x *= -1.0f;
+    }
+
 
 }
 
