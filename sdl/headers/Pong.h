@@ -93,7 +93,7 @@ Pong::Pong()
         1024.0f / 2.0f, 
         768.0f / 2.0f
      ),
-     mBallVelocity(0, -100.0f)
+     mBallVelocity(100.0f, -100.0f)
 {
     Game game;
 }
