@@ -16,12 +16,16 @@ public:
 
 private:
     void ProcessInput();
-    void UpdateGame();
-    void GenerateOutput();
+    virtual void UpdateGame();
+    virtual void GenerateOutput();
 
+    bool mIsRunning;
+    
+protected:
     SDL_Window *mWindow;
     SDL_Renderer *mRenderer;
-    bool mIsRunning;
+    int width;
+    int height;
 
 };
 

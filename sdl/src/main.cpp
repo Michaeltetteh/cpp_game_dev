@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include "../headers/Game.h"
+#include "../headers/Rect.h"
 
 
 
 int main(int argc, char *argv[])
 {
-    Game game;
+    DrawRect game;
     bool init = game.Initialize();
     
     if(init){

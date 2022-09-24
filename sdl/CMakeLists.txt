@@ -1,12 +1,14 @@
 cmake_minimum_required(VERSION 3.2)
 
 project(sdlgame)
+set(CMAKE_CXX_STANDARD 11)
 
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
 set(HEADERS_DIR 
     headers/Game.h
+    headers/Rect.h
 )
 
 set(SOURCE_FILES

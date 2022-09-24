@@ -2,7 +2,7 @@
 
 
 
-Game::Game() :mWindow(nullptr), mIsRunning(true){}
+Game::Game() :mWindow(nullptr), mIsRunning(true),width(1024),height(768) {}
 
 bool Game::Initialize()
 {
@@ -12,7 +12,7 @@ bool Game::Initialize()
         return false;
     }
 
-    mWindow = SDL_CreateWindow("Game", 100, 100, 1024, 768, 0);
+    mWindow = SDL_CreateWindow("Game", 100, 100, width, height, 0);
     if(!mWindow){
         SDL_Log("Unable to create window: %s",SDL_GetError());
         return false;
