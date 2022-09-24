@@ -2,7 +2,7 @@
 
 
 
-Game::Game() :mWindow(nullptr), mIsRunning(true),width(1024),height(768) {}
+Game::Game() :mWindow(nullptr), mIsRunning(true),width(1024),height(768),mTicksCount(0) {}
 
 bool Game::Initialize()
 {
@@ -68,6 +68,11 @@ void Game::ProcessInput()
 
 void Game::UpdateGame()
 {
+    // Delta time is the difference in ticks from last frame (converted to seconds)
+    float deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
+
+    mTicksCount = SDL_GetTicks();
+
     SDL_SetRenderDrawColor(mRenderer, 255,0,0,255); //draw color
     SDL_RenderClear(mRenderer); // clear back buffer to current draw color
 }

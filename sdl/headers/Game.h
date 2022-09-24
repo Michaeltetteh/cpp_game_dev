@@ -15,14 +15,15 @@ public:
     void Shutdown();
 
 private:
-    void ProcessInput();
+    virtual void ProcessInput();
     virtual void UpdateGame();
     virtual void GenerateOutput();
 
-    bool mIsRunning;
-    
-protected:
     SDL_Window *mWindow;
+
+protected:
+    bool mIsRunning;
+    uint32_t mTicksCount;
     SDL_Renderer *mRenderer;
     int width;
     int height;
