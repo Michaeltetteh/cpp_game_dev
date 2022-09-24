@@ -8,7 +8,7 @@ const float playerH = 100.0f;
 
 struct Vec2
 {
-    // Vec2(float a,float b):x(a),y(b){}
+    Vec2(float a,float b):x(a),y(b){}
 
     float x;
     float y;
@@ -21,6 +21,7 @@ private:
     int thickness;
     Vec2 mPlayer;
     Vec2 mBallPos;
+    Vec2 mBallVelocity;
     int mplayerDirection;
 
 public:
@@ -30,15 +31,19 @@ public:
     void ProcessInput() override;
 };
 
-Pong::Pong() :thickness(15)
+Pong::Pong() 
+    :thickness(15),
+     mPlayer(
+        (float)width / 2.0f, 
+        768.0f - (playerH / 2.0f)
+     ),
+     mBallPos(
+        1024.0f / 2.0f, 
+        768.0f / 2.0f
+     ),
+     mBallVelocity(-200.0f, 235.0f)
 {
     Game game;
-    mPlayer.x = (float)width/2.0f;
-    mPlayer.y = 768.0f - (playerH/2.0f);
-    mBallPos.x = 1024.0f/2.0f;
-    mBallPos.y = 768.0f/2.0f;
-    // mBallVel.x = -200.0f;
-    // mBallVel.y = 235.0f;
 }
 
 void Pong::ProcessInput()
