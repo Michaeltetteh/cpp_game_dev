@@ -14,6 +14,7 @@ set(HEADERS_DIR
 set(SOURCE_FILES
     src/main.cpp 
     src/Game.cpp
+    src/Pong.cpp
 )
 
 include_directories(sdlgame ${HEADERS_DIR})
