@@ -20,11 +20,11 @@ void Pong::setRects()
         1024,       // Width
         thickness   // Height
     };
-    rightWall =  SDL_Rect{
-        1024 - thickness,
-        0,
+    player_2 =  SDL_Rect{
+        static_cast<int>(mPlayer2.x),
+        static_cast<int>(mPlayer2.y),
         thickness,
-        1024
+        static_cast<int>(playerH)
     };
     player =  SDL_Rect{
         static_cast<int>(mPlayer.x),
@@ -48,6 +48,10 @@ Pong::Pong()
         10.0f, 
         768.0f/2.0f
      ),
+     mPlayer2(
+        width - (thickness * 2 - 5), 
+        0
+     ),
      mBallPos(
         1024.0f/2.0f, 
         768.0f/2.0f
@@ -59,8 +63,9 @@ Pong::Pong()
 
 void Pong::Log()
 {
-    // LOG_INFO("DeltaTime: %f Ticks: %d\n",deltaTime,mTicksCount);
-    LOG_INFO("Player position : X=%f Y=%f\n",mPlayer.x,mPlayer.y);
+    LOG_INFO("Width: %d Height: %d\n",width, height);
+    LOG_INFO("Player1 position : X=%f Y=%f\n",mPlayer.x,mPlayer.y);
+    LOG_INFO("Player2 position : X=%f Y=%f\n",mPlayer2.x,mPlayer2.y);
     LOG_INFO("Ball position : X=%f Y=%f\n",mBallPos.x,mBallPos.y);
     LOG_INFO("Ball velocity : X= %f Y=%f\n\n",mBallVelocity.x,mBallVelocity.y);
 }
@@ -89,6 +94,12 @@ void Pong::ProcessInput()
         mplayerDirection -= 1;
     if(state[SDL_SCANCODE_S])
         mplayerDirection += 1;
+
+    mplayer2Direction = 0;
+    if(state[SDL_SCANCODE_I])
+        mplayer2Direction -= 1;
+    if(state[SDL_SCANCODE_K])
+        mplayer2Direction += 1;
 }
 
 void Pong::UpdateGame()
@@ -110,11 +121,10 @@ void Pong::UpdateGame()
     // Update tick counts (for next frame)
     mTicksCount = SDL_GetTicks();
     
-    // Update paddle position based on direction
     if (mplayerDirection != 0)
     {
         mPlayer.y += mplayerDirection * 300.0f * deltaTime;
-        // Make sure paddle doesn't move off screen!
+        // Make sure player doesn't move off screen!
         if (mPlayer.y < (playerH/2.0f + thickness))
         {
             mPlayer.y = playerH/2.0f + thickness;
@@ -122,6 +132,20 @@ void Pong::UpdateGame()
         else if (mPlayer.y > (768.0f - playerH/2.0f - thickness))
         {
             mPlayer.y = 768.0f - playerH/2.0f - thickness;
+        }
+    }
+
+    if (mplayer2Direction != 0)
+    {
+        mPlayer2.y += mplayer2Direction * 300.0f * deltaTime;
+        // Make sure player2 doesn't move off screen!
+        if (mPlayer2.y < thickness)
+        {
+            mPlayer2.y = thickness;
+        }
+        else if (mPlayer2.y > ((float)height - playerH))
+        {
+            mPlayer2.y = ((float)height - playerH);
         }
     }
     
@@ -155,7 +179,7 @@ void Pong::DetectCollision()
         mIsRunning = false;
     }
     // Did the ball collide with the right wall?
-    else if (hasCollided(&ball, &rightWall) &&  mBallVelocity.x > 0.0f)
+    else if (hasCollided(&ball, &player_2) &&  mBallVelocity.x > 0.0f)
     {
         mBallVelocity.x *= -1.0f;
     }
@@ -171,6 +195,8 @@ void Pong::DetectCollision()
     {
         mBallVelocity.y *= -1;
     }
+    else if (mBallPos.x > static_cast<float>(width))
+        mIsRunning = false;
 }
 
 void Pong::GenerateOutput()
@@ -195,7 +221,7 @@ void Pong::GenerateOutput()
     SDL_RenderFillRect(mRenderer, &bottomWall);
     
     // Draw right wall
-    SDL_RenderFillRect(mRenderer, &rightWall);
+    SDL_RenderFillRect(mRenderer, &player_2);
 
     SDL_RenderFillRect(mRenderer, &player);
     

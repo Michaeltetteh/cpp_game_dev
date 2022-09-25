@@ -32,17 +32,19 @@ public:
 private:
     void Log();
     SDL_bool hasCollided(SDL_Rect *A,SDL_Rect *B);
-    
+
     int thickness;
     int mplayerDirection;
+    int mplayer2Direction;
 
     Vec2 mPlayer;
+    Vec2 mPlayer2;
     Vec2 mBallPos;
     Vec2 mBallVelocity;
 
     SDL_Rect topWall;
     SDL_Rect bottomWall;
-    SDL_Rect rightWall;
+    SDL_Rect player_2;
     SDL_Rect player;
     SDL_Rect ball;
 
