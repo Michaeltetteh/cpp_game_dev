@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../headers/Pong.h"
+#include "pong/Pong.h"
 
 
 

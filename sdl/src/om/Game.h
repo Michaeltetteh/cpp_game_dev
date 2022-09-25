@@ -4,6 +4,9 @@
 #include <SDL.h>
 #include <vector>
 
+#define NEWLINE     "\n"
+#define LOG_INFO(message,...) SDL_Log(message NEWLINE, ##__VA_ARGS__);
+
 
 class Game
 {

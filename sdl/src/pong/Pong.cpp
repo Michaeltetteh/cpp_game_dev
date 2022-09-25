@@ -1,4 +1,4 @@
-#include "../headers/Pong.h"
+#include "Pong.h"
 
 
 SDL_bool Pong::hasCollided(SDL_Rect *A,SDL_Rect *B)

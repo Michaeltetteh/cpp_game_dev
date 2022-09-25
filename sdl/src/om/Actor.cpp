@@ -1,7 +1,7 @@
 
-#include "../../headers/GOM/Actor.h"
-#include "../../headers/Game.h"
-#include "../../headers/GOM/Component.h"
+#include "Actor.h"
+#include "Game.h"
+#include "Component.h"
 #include <algorithm>
 
 Actor::Actor(Game* game)
@@ -25,14 +25,14 @@ Actor::~Actor()
     }
 }
 
-// void Actor::Update(float deltaTime)
-// {
-//     if (mState == EActive)
-//     {
-//         UpdateComponents(deltaTime);
-//         UpdateActor(deltaTime);
-//     }
-// }
+void Actor::Update(float deltaTime)
+{
+    if (mState == EActive)
+    {
+        UpdateComponents(deltaTime);
+        UpdateActor(deltaTime);
+    }
+}
 
 void Actor::UpdateComponents(float deltaTime)
 {

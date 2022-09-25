@@ -18,7 +18,7 @@ public:
     virtual ~Actor();
 
     // Update function called from Game (not overridable)
-    // void Update(float deltaTime);
+    void Update(float deltaTime);
     // Updates all the components attached to the actor (not overridable)
     void UpdateComponents(float deltaTime);
     // Any actor-specific update code (overridable)

@@ -1,5 +1,5 @@
-#include "../headers/Game.h"
-#include "../headers/GOM/Actor.h"
+#include "Game.h"
+#include "Actor.h"
 
 
 Game::Game() :mWindow(nullptr), mIsRunning(true),width(1024),height(768),mTicksCount(0) {}
@@ -79,8 +79,8 @@ void Game::UpdateGame()
     //
     //update actors in mActors
     mUpdatingActors = true;
-    // for(auto actor : mActors)
-    //     actor->Update(deltaTime);
+    for(auto actor : mActors)
+        actor->Update(deltaTime);
 
     mUpdatingActors = false;
 

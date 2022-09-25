@@ -1,10 +1,7 @@
 #ifndef PONG_H 
 #define PONG_H
 
-#include "Game.h"
-#define NEWLINE     "\n"
-
-#define LOG_INFO(message,...) SDL_Log(message NEWLINE, ##__VA_ARGS__);
+#include "../om/Game.h"
 
 const int thickness = 15;
 const float playerH = 100.0f;
