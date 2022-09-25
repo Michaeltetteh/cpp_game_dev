@@ -30,19 +30,22 @@ public:
     void setRects();
 
 private:
+    void Log();
+    SDL_bool hasCollided(SDL_Rect *A,SDL_Rect *B);
+    
     int thickness;
+    int mplayerDirection;
+
     Vec2 mPlayer;
     Vec2 mBallPos;
     Vec2 mBallVelocity;
-    int mplayerDirection;
-    // float deltaTime;
-    void Log();
-    SDL_Rect _mTopWall;
-    SDL_Rect _mRightWall;
-    SDL_Rect _mLeftWall;
-    SDL_Rect _mPlayer;
-    SDL_Rect _mBall;
-    SDL_bool hasCollided(SDL_Rect *A,SDL_Rect *B);
+
+    SDL_Rect topWall;
+    SDL_Rect bottomWall;
+    SDL_Rect rightWall;
+    SDL_Rect player;
+    SDL_Rect ball;
+
 };
 
 #endif
