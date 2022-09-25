@@ -1,5 +1,5 @@
 #include "../headers/Game.h"
-
+#include "../headers/GOM/Actor.h"
 
 
 Game::Game() :mWindow(nullptr), mIsRunning(true),width(1024),height(768),mTicksCount(0) {}
@@ -75,6 +75,33 @@ void Game::UpdateGame()
 
     SDL_SetRenderDrawColor(mRenderer, 255,0,0,255); //draw color
     SDL_RenderClear(mRenderer); // clear back buffer to current draw color
+
+    //
+    //update actors in mActors
+    mUpdatingActors = true;
+    // for(auto actor : mActors)
+    //     actor->Update(deltaTime);
+
+    mUpdatingActors = false;
+
+    //move all pending actors to mActors and clear mPendingActors
+    for(auto actor : mPendingActors)
+        mActors.emplace_back(actor);
+    mPendingActors.clear();
+
+    //add dead actors to temp vector
+    std::vector<Actor *> deadActors;
+
+    for(auto actor : mActors)
+    {
+        if(actor->GetState() == Actor::EDead)
+            deadActors.emplace_back(actor);
+    }
+
+    //delete dead actors
+    for(auto actor : deadActors)
+        delete actor;
+
 }
 
 
@@ -82,4 +109,36 @@ void Game::GenerateOutput()
 {   
     SDL_RenderPresent(mRenderer); //swaps front and back color buffers
 }
+
+
+void Game::AddActor(Actor *actor)
+{
+    if(mUpdatingActors)
+        mPendingActors.emplace_back(actor);
+    else
+        mActors.emplace_back(actor);
+}
+
+void Game::RemoveActor(Actor *actor)
+{
+    // Is it in pending actors?
+    auto iter = std::find(mPendingActors.begin(), mPendingActors.end(), actor);
+    if (iter != mPendingActors.end())
+    {
+        // Swap to end of vector and pop off (avoid erase copies)
+        std::iter_swap(iter, mPendingActors.end() - 1);
+        mPendingActors.pop_back();
+    }
+
+    // Is it in actors?
+    iter = std::find(mActors.begin(), mActors.end(), actor);
+    if (iter != mActors.end())
+    {
+        // Swap to end of vector and pop off (avoid erase copies)
+        std::iter_swap(iter, mActors.end() - 1);
+        mActors.pop_back();
+    }
+}
+
+
 
