@@ -1,7 +1,7 @@
 #ifndef PONG_H 
 #define PONG_H
 
-#include "../om/Game.h"
+#include "Game.h"
 
 const int thickness = 15;
 const float playerH = 100.0f;
