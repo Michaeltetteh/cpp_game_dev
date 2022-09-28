@@ -3,3 +3,4 @@ project(LearnSDL)
 include(cmake/common.cmake)
 
 add_subdirectory(src/pong)
+add_subdirectory(src/om)
