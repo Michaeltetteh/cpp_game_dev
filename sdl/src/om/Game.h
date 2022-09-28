@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include <vector>
 #include <unordered_map>
-
+#include <string>
 
 #define NEWLINE     "\n"
 #define LOG_INFO(message,...) SDL_Log(message NEWLINE, ##__VA_ARGS__);
@@ -33,6 +33,9 @@ public:
     void AddSprite(class SpriteComponent *sprite);
     void RemoveSprite(class SpriteComponent* sprite);
 
+    void LoadData();
+    void UnLoadData();
+
 private:
     virtual void ProcessInput();
     virtual void UpdateGame();
@@ -40,8 +43,11 @@ private:
 
     SDL_Window *mWindow;
     bool mUpdatingActors;
-    std::unordered_map<std::string,SDL_Texture *> mTextures;
+
+    std::unordered_map<std::string,SDL_Texture*> mTextures;
     std::vector<class SpriteComponent *> mSprites;
+
+    class Ship* mShip; // Player's ship
 
 protected:
     bool mIsRunning;

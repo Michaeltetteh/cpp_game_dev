@@ -3,10 +3,11 @@
 #include "SDL2/SDL_image.h"
 #include <algorithm>
 #include "SpriteComponent.h"
-#include <string>
+#include "Ship.h"
+#include "BGSpriteComponent.h"
 
 
-Game::Game() :mWindow(nullptr), mIsRunning(true),width(1024),height(768),mTicksCount(0) {}
+Game::Game() :mWindow(nullptr), mIsRunning(true),width(1024),height(768),mTicksCount(0),mUpdatingActors(false) {}
 
 bool Game::Initialize()
 {
@@ -33,12 +34,16 @@ bool Game::Initialize()
         return false;
     }
 
+    LoadData();
 
+    mTicksCount = SDL_GetTicks();
     return true;
 }
 
 void Game::Shutdown()
 {
+    UnLoadData();
+    IMG_Quit();
     SDL_DestroyRenderer(mRenderer);
     SDL_DestroyWindow(mWindow);
     SDL_Quit();
@@ -72,6 +77,9 @@ void Game::ProcessInput()
     if(state[SDL_SCANCODE_ESCAPE]) {
         mIsRunning = false;
     }
+
+
+    mShip->ProcessKeyboard(state);
 
 }
 
@@ -117,7 +125,16 @@ void Game::UpdateGame()
 
 void Game::GenerateOutput()
 {   
-    SDL_RenderPresent(mRenderer); //swaps front and back color buffers
+    SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
+    SDL_RenderClear(mRenderer);
+    
+    // Draw all sprite components
+    for (auto sprite : mSprites)
+    {
+        sprite->Draw(mRenderer);
+    }
+
+    SDL_RenderPresent(mRenderer);
 }
 
 
@@ -177,7 +194,7 @@ SDL_Texture *Game::GetTexture(const std::string &filename)
     SDL_Texture *tex = nullptr;
     auto iter = mTextures.find(filename);
 
-    if(iter != iter.end()) {
+    if(iter != mTextures.end()) {
         tex = iter->second;
     }
     else {
@@ -208,3 +225,50 @@ void Game::RemoveSprite(class SpriteComponent *sprite)
     mSprites.erase(iter);
 }
 
+
+void Game::LoadData()
+{
+    // Create player's ship
+    mShip = new Ship(this);
+    mShip->SetPosition(Vector2(100.0f, 384.0f));
+    mShip->SetScale(1.5f);
+
+    // Create actor for the background (this doesn't need a subclass)
+    Actor* temp = new Actor(this);
+    temp->SetPosition(Vector2(512.0f, 384.0f));
+    // Create the "far back" background
+    BGSpriteComponent* bg = new BGSpriteComponent(temp);
+    bg->SetScreenSize(Vector2(1024.0f, 768.0f));
+    std::vector<SDL_Texture*> bgtexs = {
+        GetTexture("Assets/Farback01.png"),
+        GetTexture("Assets/Farback02.png")
+    };
+    bg->SetBGTextures(bgtexs);
+    bg->SetScrollSpeed(-100.0f);
+    // Create the closer background
+    bg = new BGSpriteComponent(temp, 50);
+    bg->SetScreenSize(Vector2(1024.0f, 768.0f));
+    bgtexs = {
+        GetTexture("Assets/Stars.png"),
+        GetTexture("Assets/Stars.png")
+    };
+    bg->SetBGTextures(bgtexs);
+    bg->SetScrollSpeed(-200.0f);
+}
+
+void Game::UnLoadData()
+{
+    // Delete actors
+    // Because ~Actor calls RemoveActor, have to use a different style loop
+    while (!mActors.empty())
+    {
+        delete mActors.back();
+    }
+
+    // Destroy textures
+    for (auto i : mTextures)
+    {
+        SDL_DestroyTexture(i.second);
+    }
+    mTextures.clear();
+}
