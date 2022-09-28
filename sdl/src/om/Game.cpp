@@ -1,6 +1,6 @@
 #include "Game.h"
 #include "Actor.h"
-
+#include "SDL2/SDL_image.h"
 
 Game::Game() :mWindow(nullptr), mIsRunning(true),width(1024),height(768),mTicksCount(0) {}
 
@@ -23,6 +23,12 @@ bool Game::Initialize()
         SDL_Log("Unable to create rederer: %s",SDL_GetError());
         return false;
     }
+
+    if(IMG_Init(IMG_INIT_PNG) == 0){
+        SDL_Log("Unable to initialize sdl_image: %s",SDL_GetError());
+        return false;
+    }
+    
 
     return true;
 }
