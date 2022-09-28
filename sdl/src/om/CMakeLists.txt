@@ -34,7 +34,7 @@ set(SOURCE_FILES
 macro(copy_files files)
     foreach(file ${files})
         message(STATUS "Copying resource ${file}")
-        file(COPY ${file} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/bin/shaders)
+        file(COPY ${file} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/bin/Assets)
     endforeach()
 endmacro()
 
