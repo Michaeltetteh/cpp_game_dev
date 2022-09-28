@@ -3,6 +3,8 @@
 
 #include <SDL2/SDL.h>
 #include <vector>
+#include <unordered_map>
+
 
 #define NEWLINE     "\n"
 #define LOG_INFO(message,...) SDL_Log(message NEWLINE, ##__VA_ARGS__);
@@ -25,6 +27,12 @@ public:
     void AddActor(class Actor *actor);
     void RemoveActor(class Actor *actor);
 
+    SDL_Texture *LoadTexture(const char* filename);
+    SDL_Texture *GetTexture(const std::string &filename);
+
+    void AddSprite(class SpriteComponent *sprite);
+    void RemoveSprite(class SpriteComponent* sprite);
+
 private:
     virtual void ProcessInput();
     virtual void UpdateGame();
@@ -32,6 +40,8 @@ private:
 
     SDL_Window *mWindow;
     bool mUpdatingActors;
+    std::unordered_map<std::string,SDL_Texture *> mTextures;
+    std::vector<class SpriteComponent *> mSprites;
 
 protected:
     bool mIsRunning;

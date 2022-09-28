@@ -2,7 +2,7 @@
 #define ACTOR_H
 
 #include <vector>
-
+#include "Math.h"
 
 class Actor
 {
@@ -25,8 +25,8 @@ public:
     virtual void UpdateActor(float deltaTime);
 
     // Getters/setters
-    // const Vector2& GetPosition() const { return mPosition; }
-    // void SetPosition(const Vector2& pos) { mPosition = pos; }
+    const Vector2& GetPosition() const { return mPosition; }
+    void SetPosition(const Vector2& pos) { mPosition = pos; }
     float GetScale() const { return mScale; }
     void SetScale(float scale) { mScale = scale; }
     float GetRotation() const { return mRotation; }
@@ -46,7 +46,7 @@ private:
     State mState;
 
     // Transform
-    // Vector2 mPosition;
+    Vector2 mPosition;
     float mScale;
     float mRotation;
 

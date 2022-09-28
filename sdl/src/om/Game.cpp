@@ -1,6 +1,10 @@
 #include "Game.h"
 #include "Actor.h"
 #include "SDL2/SDL_image.h"
+#include <algorithm>
+#include "SpriteComponent.h"
+#include <string>
+
 
 Game::Game() :mWindow(nullptr), mIsRunning(true),width(1024),height(768),mTicksCount(0) {}
 
@@ -28,7 +32,7 @@ bool Game::Initialize()
         SDL_Log("Unable to initialize sdl_image: %s",SDL_GetError());
         return false;
     }
-    
+
 
     return true;
 }
@@ -147,4 +151,60 @@ void Game::RemoveActor(Actor *actor)
 }
 
 
+ SDL_Texture *Game::LoadTexture(const char *filename)
+ {
+     //load surface/image
+     SDL_Surface *img = IMG_Load(filename);
+     if(!img) {
+         SDL_Log("Failed to load texture file %s", filename);
+         return nullptr;
+     }
+
+     //create texture from surface
+     SDL_Texture *texture = SDL_CreateTextureFromSurface(mRenderer, img);
+     SDL_FreeSurface(img); //free an RGB surface
+     if(!texture) {
+         SDL_Log("Failed to convert surface to texture for %s", filename);
+         return nullptr;
+     }
+
+     return texture;
+ }
+
+
+SDL_Texture *Game::GetTexture(const std::string &filename)
+{
+    SDL_Texture *tex = nullptr;
+    auto iter = mTextures.find(filename);
+
+    if(iter != iter.end()) {
+        tex = iter->second;
+    }
+    else {
+        tex = LoadTexture(filename.c_str());
+        if(tex)
+            mTextures.emplace(filename,tex);
+    }
+
+    return tex;
+}
+
+
+void Game::AddSprite(SpriteComponent *sprite)
+{
+    int drawOrder = sprite->GetDrawOrder();
+    auto iter = mSprites.begin();
+    for( ;iter != mSprites.end(); ++iter)
+    {
+        if(drawOrder < (*iter)->GetDrawOrder())
+            break;
+    }
+    mSprites.insert(iter,sprite);
+}
+
+void Game::RemoveSprite(class SpriteComponent *sprite)
+{
+    auto iter = std::find(mSprites.begin(), mSprites.end(), sprite);
+    mSprites.erase(iter);
+}
 
