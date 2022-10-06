@@ -1,6 +1,6 @@
 project(Object_Model)
 
-set(HEADERS_DIR
+set(HEADERS
         Game.h
         Actor.h
         Component.h
@@ -22,6 +22,6 @@ set(SOURCE_FILES
 )
 
 
-include_directories(om ${COMMON_HEADERS} ${HEADERS_DIR})
+include_directories(om ${COMMON_HEADERS} ${HEADERS})
 add_executable(om ${SOURCE_FILES})
 target_link_libraries(om ${SDL2_LIBRARIES} ${SDL_IMAGE_LIBRARY})
