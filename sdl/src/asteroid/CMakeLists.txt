@@ -22,7 +22,7 @@ set(SOURCE_FILES
 )
 
 
-include_directories(asteroid ${HEADERS_DIR})
+include_directories(asteroid ${HEADERS})
 
 add_executable(asteroid ${SOURCE_FILES})
 target_link_libraries(asteroid ${SDL2_LIBRARIES} ${SDL_IMAGE_LIBRARY})
