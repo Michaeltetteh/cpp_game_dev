@@ -3,7 +3,7 @@
 
 
 
-int main(int argc, char *argv[])
+int main()
 {
     Pong game;
     bool init = game.Initialize();

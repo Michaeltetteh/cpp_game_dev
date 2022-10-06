@@ -3,7 +3,7 @@
 
 #include "SpriteComponent.h"
 #include <SDL2/SDL.h>
-#include "Math.h"
+#include "../../../lib/math/Math.h"
 
 #include <vector>
 

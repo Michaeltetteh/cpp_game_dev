@@ -1,7 +1,7 @@
 #include "Game.h"
 
 
-Game::Game() :mWindow(nullptr), mIsRunning(true),width(1024),height(768),mTicksCount(0) {}
+Game::Game() :mWindow(nullptr), mIsRunning(true),mTicksCount(0),width(1024),height(768) {}
 
 bool Game::Initialize()
 {
@@ -68,7 +68,7 @@ void Game::ProcessInput()
 void Game::UpdateGame()
 {
     // Delta time is the difference in ticks from last frame (converted to seconds)
-    float deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
+    // float deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
 
     mTicksCount = SDL_GetTicks();
 

@@ -1,10 +1,10 @@
-#include "Game.h"
-#include "Actor.h"
+#include "components/BGSpriteComponent.h"
+#include "components/SpriteComponent.h"
 #include "SDL2/SDL_image.h"
+#include "actors/Actor.h"
+#include "actors/Ship.h"
 #include <algorithm>
-#include "SpriteComponent.h"
-#include "Ship.h"
-#include "BGSpriteComponent.h"
+#include "Game.h"
 
 
 Game::Game() :mWindow(nullptr),mUpdatingActors(false),mIsRunning(true),mTicksCount(0),width(1024),height(768) {}

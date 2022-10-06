@@ -1,7 +1,7 @@
 
 #include "Actor.h"
-#include "Game.h"
-#include "Component.h"
+#include "../Game.h"
+#include "../components/Component.h"
 #include <algorithm>
 
 Actor::Actor(Game* game)
