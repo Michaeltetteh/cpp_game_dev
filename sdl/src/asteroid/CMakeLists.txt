@@ -4,6 +4,7 @@ set(HEADERS
         components/AnimSpriteComponent.h
         components/BGSpriteComponent.h
         components/SpriteComponent.h
+        components/InputComponent.h
         components/MoveComponent.h
         components/Component.h
         actors/Asteroid.h
@@ -18,6 +19,7 @@ set(SOURCE_FILES
         components/AnimeSpriteComponent.cpp
         components/BGSpriteComponent.cpp
         components/SpriteComponent.cpp
+        components/InputComponent.cpp
         components/MoveComponent.cpp
         components/Component.cpp
         actors/Asteroid.cpp

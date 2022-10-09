@@ -80,8 +80,12 @@ void Game::ProcessInput()
     }
 
 
-    mShip->ProcessKeyboard(state);
+//    mShip->ProcessKeyboard(state);
 
+    mUpdatingActors = true;
+    for(auto actor : mActors)
+        actor->ProcessInput(state);
+    mUpdatingActors = false;
 }
 
 
@@ -232,7 +236,8 @@ void Game::LoadData()
     // Create player's ship
     mShip = new Ship(this);
     mShip->SetPosition(Vector2(100.0f, 384.0f));
-    mShip->SetScale(1.5f);
+//    mShip->SetScale(1.5f);
+    mShip->SetRotation(Math::PiOver2);
 
     // Create actor for the background (this doesn't need a subclass)
     Actor* temp = new Actor(this);
@@ -256,7 +261,7 @@ void Game::LoadData()
     bg->SetBGTextures(bgtexs);
     bg->SetScrollSpeed(-200.0f);
 
-    //load asteroids
+    //spawn asteroids
     int num = 20;
     for (int i = 0; i < num; ++i) {
         new Asteroid(this);

@@ -1,6 +1,7 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
+#include <cstdint>
 
 class Component
 {
@@ -14,6 +15,9 @@ public:
     virtual void Update(float deltaTime);
 
     int GetUpdateOrder() const { return mUpdateOrder; }
+
+    virtual void ProcessInput(const uint8_t *keyState);
+
 protected:
     // Owning actor
     class Actor* mOwner;

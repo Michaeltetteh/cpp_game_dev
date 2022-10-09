@@ -43,6 +43,9 @@ public:
     // Add/remove components
     void AddComponent(class Component* component);
     void RemoveComponent(class Component* component);
+
+    void ProcessInput(const uint8_t *keyState);
+    virtual void ActorInput(const uint8_t *keyState);
 private:
     // Actor's state
     State mState;

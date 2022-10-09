@@ -15,3 +15,5 @@ Component::~Component()
 }
 
 void Component::Update(float deltaTime){std::ignore = deltaTime;}
+
+void Component::ProcessInput(const uint8_t *keyState) { std::ignore = keyState;}
