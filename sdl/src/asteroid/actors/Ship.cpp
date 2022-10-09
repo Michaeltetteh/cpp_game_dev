@@ -25,7 +25,9 @@ void Ship::UpdateActor(float deltaTime)
     Vector2 pos = GetPosition();
     pos.x += mRightSpeed * deltaTime;
     pos.y += mDownSpeed * deltaTime;
+
     // Restrict position to left half of screen
+    LOG_INFO("ship pos X=%f  Y=%f",pos.x,pos.y);
     if (pos.x < 25.0f)
     {
         pos.x = 25.0f;

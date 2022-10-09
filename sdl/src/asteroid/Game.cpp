@@ -1,5 +1,6 @@
 #include "components/BGSpriteComponent.h"
 #include "components/SpriteComponent.h"
+#include "actors/Asteroid.h"
 #include "SDL2/SDL_image.h"
 #include "actors/Actor.h"
 #include "actors/Ship.h"
@@ -17,7 +18,7 @@ bool Game::Initialize()
         return false;
     }
 
-    mWindow = SDL_CreateWindow("Game", 100, 100, width, height, 0);
+    mWindow = SDL_CreateWindow("Asteroid", 100, 100, width, height, 0);
     if(!mWindow){
         SDL_Log("Unable to create window: %s",SDL_GetError());
         return false;
@@ -254,6 +255,12 @@ void Game::LoadData()
     };
     bg->SetBGTextures(bgtexs);
     bg->SetScrollSpeed(-200.0f);
+
+    //load asteroids
+    int num = 20;
+    for (int i = 0; i < num; ++i) {
+        new Asteroid(this);
+    }
 }
 
 void Game::UnLoadData()

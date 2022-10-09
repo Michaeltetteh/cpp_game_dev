@@ -20,6 +20,6 @@ endmacro()
 copy_files(${CMAKE_CURRENT_SOURCE_DIR}/Assets/)
 
 
-add_subdirectory(src/pong)
-add_subdirectory(src/om)
+#add_subdirectory(src/pong)
+#add_subdirectory(src/om)
 add_subdirectory(src/asteroid)

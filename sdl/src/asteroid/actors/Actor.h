@@ -38,6 +38,7 @@ public:
 
     class Game* GetGame() { return mGame; }
 
+    Vector2 GetForward() const { return Vector2(Math::Cos(mRotation), -Math::Sin(mRotation)); }
 
     // Add/remove components
     void AddComponent(class Component* component);

@@ -4,18 +4,25 @@ set(HEADERS
         components/AnimSpriteComponent.h
         components/BGSpriteComponent.h
         components/SpriteComponent.h
+        components/MoveComponent.h
         components/Component.h
+        actors/Asteroid.h
+        utils/Random.h
         actors/Actor.h
         actors/Ship.h
         Game.h
+
 )
 
 set(SOURCE_FILES
-        components/Component.cpp
-        components/SpriteComponent.cpp
         components/AnimeSpriteComponent.cpp
         components/BGSpriteComponent.cpp
+        components/SpriteComponent.cpp
+        components/MoveComponent.cpp
+        components/Component.cpp
+        actors/Asteroid.cpp
         actors/Actor.cpp
+        utils/Random.cpp
         actors/Ship.cpp
         Game.cpp
         main.cpp
