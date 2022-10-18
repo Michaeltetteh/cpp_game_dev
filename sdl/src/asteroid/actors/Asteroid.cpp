@@ -3,7 +3,7 @@
 #include "../Game.h"
 #include "../components/MoveComponent.h"
 #include "../utils/Random.h"
-
+#include "../components/CircleComponent.h"
 
 #define ZERO_VEC2  Vector2(0.0f, 0.0f)
 
@@ -22,6 +22,10 @@ Asteroid::Asteroid(Game *game)
     //movement
     MoveComponent *mc = new MoveComponent(this);
     mc->SetForwardSpeed(150.0f);
+
+    //attach a circle component to asteroid
+    mCircle = new CircleComponent(this);
+    // mCircle->SetRadius(40.0f);
 }
 
 Asteroid::~Asteroid()

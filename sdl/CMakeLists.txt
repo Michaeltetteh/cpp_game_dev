@@ -5,6 +5,8 @@ set(CMAKE_CXX_STANDARD 11)
 
 set(CMAKE_CXX_FLAGS "-Werror -Wall -Wextra -Wpedantic")
 
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -fno-omit-frame-pointer -fsanitize=address")
+set(CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
@@ -20,6 +22,6 @@ endmacro()
 copy_files(${CMAKE_CURRENT_SOURCE_DIR}/Assets/)
 
 
-#add_subdirectory(src/pong)
-#add_subdirectory(src/om)
+add_subdirectory(src/pong)
+add_subdirectory(src/om)
 add_subdirectory(src/asteroid)

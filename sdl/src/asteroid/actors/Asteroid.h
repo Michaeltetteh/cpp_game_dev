@@ -9,6 +9,8 @@ class Asteroid : public Actor
 public:
     Asteroid(class Game * game);
     ~Asteroid();
+private:
+    class CircleComponent *mCircle;
 };
 
 
