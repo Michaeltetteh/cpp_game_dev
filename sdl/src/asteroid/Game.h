@@ -36,6 +36,10 @@ public:
     void LoadData();
     void UnLoadData();
 
+    void AddAsteroid(class Asteroid* ast);
+    void RemoveAsteroid(class Asteroid* ast);
+    std::vector<class Asteroid*>& GetAsteroids() { return mAsteroids; }
+
 private:
     virtual void ProcessInput();
     virtual void UpdateGame();
@@ -48,6 +52,7 @@ private:
     std::vector<class SpriteComponent *> mSprites;
 
     class Ship* mShip; // Player's ship
+    std::vector<class Asteroid*> mAsteroids;
 
 protected:
     bool mIsRunning;

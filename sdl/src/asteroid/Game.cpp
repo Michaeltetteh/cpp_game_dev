@@ -284,3 +284,19 @@ void Game::UnLoadData()
     }
     mTextures.clear();
 }
+
+
+void Game::AddAsteroid(Asteroid* ast)
+{
+    mAsteroids.emplace_back(ast);
+}
+
+void Game::RemoveAsteroid(Asteroid* ast)
+{
+    auto iter = std::find(mAsteroids.begin(),
+        mAsteroids.end(), ast);
+    if (iter != mAsteroids.end())
+    {
+        mAsteroids.erase(iter);
+    }
+}

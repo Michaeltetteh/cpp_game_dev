@@ -9,6 +9,7 @@ set(HEADERS
         components/MoveComponent.h
         components/Component.h
         actors/Asteroid.h
+        actors/Laser.h
         utils/Random.h
         actors/Actor.h
         actors/Ship.h
@@ -25,6 +26,7 @@ set(SOURCE_FILES
         components/MoveComponent.cpp
         components/Component.cpp
         actors/Asteroid.cpp
+        actors/Laser.cpp
         actors/Actor.cpp
         utils/Random.cpp
         actors/Ship.cpp

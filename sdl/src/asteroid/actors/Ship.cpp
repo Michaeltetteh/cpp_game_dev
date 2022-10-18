@@ -3,10 +3,12 @@
 #include "../Game.h"
 #include "../components/SpriteComponent.h"
 #include "../components/InputComponent.h"
+#include "Laser.h"
 
 
 Ship::Ship(Game* game)
-    :Actor(game)
+    :Actor(game),
+     mLaserCooldown(0.0f)
 {
 
     // Create a sprite component
@@ -25,10 +27,19 @@ Ship::Ship(Game* game)
 
 void Ship::UpdateActor(float deltaTime)
 {
-    std::ignore =deltaTime;
+    mLaserCooldown -= deltaTime;
 }
 
 void Ship::ActorInput(const uint8_t* keyState)
 {
-    std::ignore =keyState;
+    if (keyState[SDL_SCANCODE_SPACE] && mLaserCooldown <= 0.0f)
+    {
+        // Create a laser and set its position/rotation to mine
+        Laser* laser = new Laser(GetGame());
+        laser->SetPosition(GetPosition());
+        laser->SetRotation(GetRotation());
+
+        // Reset laser cooldown (half second)
+        mLaserCooldown = 0.5f;
+    }
 }
