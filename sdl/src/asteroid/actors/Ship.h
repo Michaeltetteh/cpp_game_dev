@@ -12,6 +12,8 @@ public:
 
 private:
     float mLaserCooldown;
+
+    class CircleComponent *mShipCircle;
 };
 
 #endif
