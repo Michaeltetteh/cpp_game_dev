@@ -4,7 +4,7 @@
 #include "Component.h"
 #include <SDL2/SDL.h>
 
- #define DBG
+// #define DBG
 
 class SpriteComponent : public Component
 {
