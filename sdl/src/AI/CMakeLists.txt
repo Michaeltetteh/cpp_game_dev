@@ -10,9 +10,9 @@ set(HEADERS
         components/AIComponent.h
         components/Component.h
         components/AIState.h
+        actors/Actor.h
         utils/Random.h
         utils/Logger.h
-        actors/Actor.h
         Game.h
 
 )
