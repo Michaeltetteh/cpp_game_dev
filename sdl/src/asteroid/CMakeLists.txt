@@ -40,7 +40,14 @@ set(SOURCE_FILES
 )
 
 
-include_directories(asteroid ${COMMON_HEADERS} ${HEADERS})
+include_directories(${PROJECT_NAME} ${HEADERS})
 
-add_executable(asteroid ${SOURCE_FILES})
-target_link_libraries(asteroid ${SDL2_LIBRARIES} ${SDL_IMAGE_LIBRARY})
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${SDL_IMAGE_LIBRARY})
+
+
+# link Math lib
+target_include_directories(${PROJECT_NAME} PRIVATE ${Math_LIB_INCLUDE_PATH})
+target_link_directories(${PROJECT_NAME} PRIVATE ${Math_LIB_PATH})
+
+target_link_libraries(${PROJECT_NAME} Math)

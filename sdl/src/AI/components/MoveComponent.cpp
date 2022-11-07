@@ -1,5 +1,5 @@
 #include "MoveComponent.h"
-#include "../../../lib/math/Math.h"
+#include "Math/Math.h"
 #include "../actors/Actor.h"
 
 MoveComponent::MoveComponent(class Actor *actor, int UpdateOrder)

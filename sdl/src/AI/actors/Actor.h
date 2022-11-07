@@ -2,7 +2,7 @@
 #define ACTOR_H
 
 #include <vector>
-#include "../../../lib/math/Math.h"
+#include "Math/Math.h"
 
 
 class Actor

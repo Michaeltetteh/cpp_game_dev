@@ -4,7 +4,7 @@
 
 #pragma  once
 #include <random>
-#include "../../../lib/math/Math.h"
+#include "Math/Math.h"
 
 class Random
 {

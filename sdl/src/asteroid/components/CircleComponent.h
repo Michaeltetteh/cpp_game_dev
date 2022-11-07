@@ -2,7 +2,7 @@
 #define CIRCLECOMPONENT_H
 
 #include "Component.h"
-#include "../../../lib/math/Math.h"
+#include "Math/Math.h"
 
 class CircleComponent : public Component
 {

@@ -34,7 +34,16 @@ set(SOURCE_FILES
 )
 
 
-include_directories(state_machine ${COMMON_HEADERS} ${HEADERS})
+include_directories(${PROJECT_NAME} ${HEADERS})
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
-add_executable(state_machine ${SOURCE_FILES})
-target_link_libraries(state_machine ${SDL2_LIBRARIES} ${SDL_IMAGE_LIBRARY})
+# sdl lib
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${SDL_IMAGE_LIBRARY})
+
+# link Math lib
+target_include_directories(${PROJECT_NAME} PRIVATE ${Math_LIB_INCLUDE_PATH})
+target_link_directories(${PROJECT_NAME} PRIVATE ${Math_LIB_PATH})
+
+target_link_libraries(${PROJECT_NAME} Math)
+
+
