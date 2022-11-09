@@ -25,9 +25,14 @@ copy_files(${CMAKE_CURRENT_SOURCE_DIR}/Assets/)
 set(Math_LIB_PATH ${PROJECT_SOURCE_DIR}/lib/Math)
 set(Math_LIB_INCLUDE_PATH ${PROJECT_SOURCE_DIR}/lib/)
 
+set(RANDOM_LIB_PATH ${PROJECT_SOURCE_DIR}/lib/Random)
+set(RANDOM_LIB_INCLUDE_PATH ${PROJECT_SOURCE_DIR}/lib/)
+
+set(Logger_LIB_INCLUDE_PATH ${PROJECT_SOURCE_DIR}/lib/)
+
 add_subdirectory(lib)
 
-add_subdirectory(src/pong)
-add_subdirectory(src/om)
+# add_subdirectory(src/pong)
+# add_subdirectory(src/om)
 add_subdirectory(src/asteroid)
 add_subdirectory(src/AI)
