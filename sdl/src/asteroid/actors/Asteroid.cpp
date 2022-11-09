@@ -2,8 +2,8 @@
 #include "../components/SpriteComponent.h"
 #include "../Game.h"
 #include "../components/MoveComponent.h"
-#include "../utils/Random.h"
 #include "../components/CircleComponent.h"
+#include "Random/Random.h"
 
 #define ZERO_VEC2  Vector2(0.0f, 0.0f)
 

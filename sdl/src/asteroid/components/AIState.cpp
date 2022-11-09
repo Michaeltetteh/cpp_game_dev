@@ -1,6 +1,6 @@
-#include "../utils/Logger.h"
 #include "AIComponent.h"
 #include "AIState.h"
+#include "Logger/Logger.h"
 
 
 void AIPatrol::Update(float deltaTime)

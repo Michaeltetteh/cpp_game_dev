@@ -1,5 +1,5 @@
 #include "AIComponent.h"
-#include "../utils/Logger.h"
+#include "Logger/Logger.h"
 #include "AIState.h"
 
 AIComponent::AIComponent(Actor *owner)

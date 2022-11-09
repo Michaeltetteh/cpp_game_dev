@@ -12,8 +12,6 @@ set(HEADERS
         components/AIState.h
         actors/Asteroid.h
         actors/Laser.h
-        utils/Random.h
-        utils/Logger.h
         actors/Actor.h
         actors/Ship.h
         Game.h
@@ -33,7 +31,6 @@ set(SOURCE_FILES
         actors/Asteroid.cpp
         actors/Laser.cpp
         actors/Actor.cpp
-        utils/Random.cpp
         actors/Ship.cpp
         Game.cpp
         main.cpp
@@ -46,8 +43,15 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${SDL_IMAGE_LIBRARY})
 
 
-# link Math lib
-target_include_directories(${PROJECT_NAME} PRIVATE ${Math_LIB_INCLUDE_PATH})
-target_link_directories(${PROJECT_NAME} PRIVATE ${Math_LIB_PATH})
 
-target_link_libraries(${PROJECT_NAME} Math)
+# link lib
+target_include_directories(${PROJECT_NAME} 
+        PRIVATE 
+                ${Math_LIB_INCLUDE_PATH}
+                ${Logger_LIB_INCLUDE_PATH}
+                ${RANDOM_LIB_INCLUDE_PATH}
+)
+target_link_directories(${PROJECT_NAME} PRIVATE ${Math_LIB_PATH} ${RANDOM_LIB_PATH})
+
+target_link_libraries(${PROJECT_NAME} Math Random)
+

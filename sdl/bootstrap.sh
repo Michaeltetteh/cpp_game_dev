@@ -7,5 +7,5 @@ cd build
 cmake ..
 
 make
-./bin/state_machine
+./bin/asteroid
 cd ../
