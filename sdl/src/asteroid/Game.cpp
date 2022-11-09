@@ -1,7 +1,7 @@
 #include "components/BGSpriteComponent.h"
 #include "components/SpriteComponent.h"
 #include "actors/Asteroid.h"
-#include "SDL2/SDL_image.h"
+#include "SDL_image.h"
 #include "actors/Actor.h"
 #include "actors/Ship.h"
 #include <algorithm>

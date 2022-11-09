@@ -2,7 +2,7 @@
 #define ANIM_SPRITE_COMPONENT_H
 
 #include <vector>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include "SpriteComponent.h"
 
 typedef  std::vector<SDL_Texture*> VEC_TEX_PTR;

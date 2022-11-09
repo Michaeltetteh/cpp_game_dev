@@ -2,7 +2,7 @@
 #define BGSPRITECOMPONENT_H
 
 #include "SpriteComponent.h"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include "Math/Math.h"
 
 #include <vector>

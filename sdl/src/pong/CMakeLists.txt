@@ -13,4 +13,16 @@ set(SOURCE_FILES
 
 include_directories(pong ${HEADERS})
 add_executable(pong ${SOURCE_FILES})
-target_link_libraries(pong ${SDL2_LIBRARIES} ${SDL_IMAGE_LIBRARY})
+
+target_include_directories(${PROJECT_NAME} 
+        PUBLIC
+                ${LearnSDL_SOURCE_DIR}/external/sdl/include
+)
+target_link_directories(${PROJECT_NAME} 
+        PRIVATE 
+                ${LearnSDL_SOURCE_DIR}/external/sdl
+)
+
+target_link_libraries(${PROJECT_NAME} 
+        SDL2::SDL2
+)

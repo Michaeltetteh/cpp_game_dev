@@ -10,7 +10,7 @@ set(CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointe
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-include(cmake/common.cmake)
+# include(cmake/common.cmake)
 
 macro(copy_files files)
     foreach(file ${files})
@@ -32,7 +32,10 @@ set(Logger_LIB_INCLUDE_PATH ${PROJECT_SOURCE_DIR}/lib/)
 
 add_subdirectory(lib)
 
-# add_subdirectory(src/pong)
-# add_subdirectory(src/om)
+add_subdirectory(external/sdl)
+add_subdirectory(external/sdl_image)
+
+add_subdirectory(src/pong)
+add_subdirectory(src/om)
 add_subdirectory(src/asteroid)
 add_subdirectory(src/AI)

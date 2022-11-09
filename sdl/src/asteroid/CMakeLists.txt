@@ -40,8 +40,6 @@ set(SOURCE_FILES
 include_directories(${PROJECT_NAME} ${HEADERS})
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${SDL_IMAGE_LIBRARY})
-
 
 
 # link lib
@@ -50,8 +48,19 @@ target_include_directories(${PROJECT_NAME}
                 ${Math_LIB_INCLUDE_PATH}
                 ${Logger_LIB_INCLUDE_PATH}
                 ${RANDOM_LIB_INCLUDE_PATH}
+        PUBLIC
+                ${LearnSDL_SOURCE_DIR}/external/sdl/include
 )
-target_link_directories(${PROJECT_NAME} PRIVATE ${Math_LIB_PATH} ${RANDOM_LIB_PATH})
+target_link_directories(${PROJECT_NAME} 
+        PRIVATE 
+                ${Math_LIB_PATH} 
+                ${RANDOM_LIB_PATH}
+                ${LearnSDL_SOURCE_DIR}/external/sdl
+)
 
-target_link_libraries(${PROJECT_NAME} Math Random)
-
+target_link_libraries(${PROJECT_NAME} 
+        Math 
+        Random
+        SDL2::SDL2
+        SDL2_image
+)

@@ -2,7 +2,7 @@
 #include "components/SpriteComponent.h"
 #include "components/AIComponent.h"
 #include "components/AIState.h"
-#include "SDL2/SDL_image.h"
+#include "SDL_image.h"
 #include "actors/Actor.h"
 #include <algorithm>
 #include "Game.h"

@@ -2,7 +2,7 @@
 #define SPRITE_COMPONENT_H
 
 #include "Component.h"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 
 class SpriteComponent : public Component
