@@ -10,7 +10,6 @@ set(CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointe
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-# include(cmake/common.cmake)
 
 macro(copy_files files)
     foreach(file ${files})
@@ -21,6 +20,31 @@ endmacro()
 
 copy_files(${CMAKE_CURRENT_SOURCE_DIR}/Assets/)
 
+
+find_package(Git QUIET)
+if(GIT_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.git)
+    option(GIT_SUBMODULES "Check submodules during build" ON)
+    if(GIT_SUBMODULES)
+        message(STATUS "Updating submodules")
+        execute_process(
+            COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            RESULT_VARIABLE GIT_SUBMOD_RESULT
+        )
+        if(NOT GIT_SUBMOD_RESULT EQUAL "0")
+            message(FATAL_ERROR "git submodule --init failed with ${GIT_SUBMOD_RESULT}.")
+        endif()
+    endif()
+endif()
+
+
+if(NOT EXISTS ${PROJECT_SOURCE_DIR}/external/sdl/CMakeLists.txt)
+    message(FATAL_ERROR "sdl submodule was not downloaded, GIT_SUBMODULES was turned off or failed.")
+endif()
+
+if(NOT EXISTS ${PROJECT_SOURCE_DIR}/external/sdl_image/CMakeLists.txt)
+    message(FATAL_ERROR "sdl_image submodule was not downloaded, GIT_SUBMODULES was turned off or failed.")
+endif()
 
 set(Math_LIB_PATH ${PROJECT_SOURCE_DIR}/lib/Math)
 set(Math_LIB_INCLUDE_PATH ${PROJECT_SOURCE_DIR}/lib/)
