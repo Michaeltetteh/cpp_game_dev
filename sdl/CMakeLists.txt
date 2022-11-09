@@ -22,7 +22,7 @@ copy_files(${CMAKE_CURRENT_SOURCE_DIR}/Assets/)
 
 
 find_package(Git QUIET)
-if(GIT_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.git)
+if(GIT_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/../.git)
     option(GIT_SUBMODULES "Check submodules during build" ON)
     if(GIT_SUBMODULES)
         message(STATUS "Updating submodules")
