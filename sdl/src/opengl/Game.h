@@ -5,9 +5,7 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
-
-#define NEWLINE     "\n"
-#define LOG_INFO(message,...) SDL_Log(message NEWLINE, __VA_ARGS__);
+#include "Logger/Logger.h"
 
 
 class Game

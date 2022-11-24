@@ -7,9 +7,7 @@ set(HEADERS
         components/CircleComponent.h
         components/InputComponent.h
         components/MoveComponent.h
-        components/AIComponent.h
         components/Component.h
-        components/AIState.h
         actors/Asteroid.h
         actors/Laser.h
         actors/Actor.h
@@ -25,9 +23,7 @@ set(SOURCE_FILES
         components/CircleComponent.cpp
         components/InputComponent.cpp
         components/MoveComponent.cpp
-        components/AIComponent.cpp
         components/Component.cpp
-        components/AIState.cpp
         actors/Asteroid.cpp
         actors/Laser.cpp
         actors/Actor.cpp

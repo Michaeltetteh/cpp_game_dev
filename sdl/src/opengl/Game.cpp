@@ -6,6 +6,7 @@
 #include "actors/Ship.h"
 #include <algorithm>
 #include "Game.h"
+#include "glad/glad.h"
 
 
 Game::Game() :mWindow(nullptr),mUpdatingActors(false),mIsRunning(true),mTicksCount(0),width(1024),height(768) {}
@@ -18,7 +19,30 @@ bool Game::Initialize()
         return false;
     }
 
-    mWindow = SDL_CreateWindow("Asteroid", 100, 100, width, height, 0);
+    // setting opengl attributes
+    //Returns 0 on success or a negative error code on failure; call SDL_GetError() for more information.
+    //core OpenGL profile
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,SDL_GL_CONTEXT_PROFILE_CORE);
+
+    //opengl version 3.3
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+
+    //Request a color buffer with 8-bits per RGBA channel
+    SDL_GL_SetAttribute(SDL_GL_RED_SIZE,8);
+    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,8);
+    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,8);
+    SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE,8);
+
+    //enable double buffering
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER,1);
+
+    //Force OpenGL to use hardware acceleration
+    SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL,1);
+
+
+
+    mWindow = SDL_CreateWindow("Opengl Asteroid", 100, 100, width, height, SDL_WINDOW_OPENGL);
     if(!mWindow){
         SDL_Log("Unable to create window: %s",SDL_GetError());
         return false;
@@ -130,16 +154,16 @@ void Game::UpdateGame()
 
 void Game::GenerateOutput()
 {   
-    SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
-    SDL_RenderClear(mRenderer);
-    
-    // Draw all sprite components
-    for (auto sprite : mSprites)
-    {
-        sprite->Draw(mRenderer);
-    }
-
-    SDL_RenderPresent(mRenderer);
+//    SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
+//    SDL_RenderClear(mRenderer);
+//
+//    // Draw all sprite components
+//    for (auto sprite : mSprites)
+//    {
+//        sprite->Draw(mRenderer);
+//    }
+//
+//    SDL_RenderPresent(mRenderer);
 }
 
 
