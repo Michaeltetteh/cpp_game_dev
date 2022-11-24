@@ -52,6 +52,9 @@ set(Math_LIB_INCLUDE_PATH ${PROJECT_SOURCE_DIR}/lib/)
 set(RANDOM_LIB_PATH ${PROJECT_SOURCE_DIR}/lib/Random)
 set(RANDOM_LIB_INCLUDE_PATH ${PROJECT_SOURCE_DIR}/lib/)
 
+set(GLAD_LIB_INCLUDE_PATH ${PROJECT_SOURCE_DIR}/lib/)
+set(GLAD_LIB_PATH ${PROJECT_SOURCE_DIR}/lib/glad)
+
 set(Logger_LIB_INCLUDE_PATH ${PROJECT_SOURCE_DIR}/lib/)
 
 add_subdirectory(lib)
@@ -63,3 +66,4 @@ add_subdirectory(src/pong)
 add_subdirectory(src/om)
 add_subdirectory(src/asteroid)
 add_subdirectory(src/AI)
+add_subdirectory(src/opengl)
