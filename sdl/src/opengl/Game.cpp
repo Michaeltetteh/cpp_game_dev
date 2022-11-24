@@ -40,19 +40,24 @@ bool Game::Initialize()
     //Force OpenGL to use hardware acceleration
     SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL,1);
 
-
-
     mWindow = SDL_CreateWindow("Opengl Asteroid", 100, 100, width, height, SDL_WINDOW_OPENGL);
     if(!mWindow){
         SDL_Log("Unable to create window: %s",SDL_GetError());
         return false;
     }
 
-    mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if(!mRenderer) {
-        SDL_Log("Unable to create rederer: %s",SDL_GetError());
-        return false;
+    mContext = SDL_GL_CreateContext(mWindow);
+
+    if(!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress))
+    {
+        SDL_Log("Failed to initialize glad...");
     }
+
+//    mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+//    if(!mRenderer) {
+//        SDL_Log("Unable to create rederer: %s",SDL_GetError());
+//        return false;
+//    }
 
     if(IMG_Init(IMG_INIT_PNG) == 0){
         SDL_Log("Unable to initialize sdl_image: %s",SDL_GetError());
@@ -70,6 +75,8 @@ void Game::Shutdown()
     UnLoadData();
     IMG_Quit();
     SDL_DestroyRenderer(mRenderer);
+    //delete opengl context
+    SDL_GL_DeleteContext(mContext);
     SDL_DestroyWindow(mWindow);
     SDL_Quit();
 }
@@ -120,8 +127,8 @@ void Game::UpdateGame()
 
     mTicksCount = SDL_GetTicks();
 
-    SDL_SetRenderDrawColor(mRenderer, 255,0,0,255); //draw color
-    SDL_RenderClear(mRenderer); // clear back buffer to current draw color
+//    SDL_SetRenderDrawColor(mRenderer, 255,0,0,255); //draw color
+//    SDL_RenderClear(mRenderer); // clear back buffer to current draw color
 
     //
     //update actors in mActors
@@ -153,7 +160,13 @@ void Game::UpdateGame()
 
 
 void Game::GenerateOutput()
-{   
+{
+    //Set the clear color to gray
+    glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+
+    // Clear the color buffer
+    glClear(GL_COLOR_BUFFER_BIT);
+
 //    SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
 //    SDL_RenderClear(mRenderer);
 //
@@ -164,6 +177,8 @@ void Game::GenerateOutput()
 //    }
 //
 //    SDL_RenderPresent(mRenderer);
+
+    SDL_GL_SwapWindow(mWindow);
 }
 
 
@@ -257,39 +272,39 @@ void Game::RemoveSprite(class SpriteComponent *sprite)
 
 void Game::LoadData()
 {
-    // Create player's ship
-    mShip = new Ship(this);
-    mShip->SetPosition(Vector2(100.0f, 384.0f));
-//    mShip->SetScale(1.5f);
-    mShip->SetRotation(Math::PiOver2);
-
-    // Create actor for the background (this doesn't need a subclass)
-    Actor* temp = new Actor(this);
-    temp->SetPosition(Vector2(512.0f, 384.0f));
-    // Create the "far back" background
-    BGSpriteComponent* bg = new BGSpriteComponent(temp);
-    bg->SetScreenSize(Vector2(1024.0f, 768.0f));
-    std::vector<SDL_Texture*> bgtexs = {
-        GetTexture("Assets/Farback01.png"),
-        GetTexture("Assets/Farback02.png")
-    };
-    bg->SetBGTextures(bgtexs);
-    bg->SetScrollSpeed(-100.0f);
-    // Create the closer background
-    bg = new BGSpriteComponent(temp, 50);
-    bg->SetScreenSize(Vector2(1024.0f, 768.0f));
-    bgtexs = {
-        GetTexture("Assets/Stars.png"),
-        GetTexture("Assets/Stars.png")
-    };
-    bg->SetBGTextures(bgtexs);
-    bg->SetScrollSpeed(-200.0f);
-
-    //spawn asteroids
-    int num = 20;
-    for (int i = 0; i < num; ++i) {
-        new Asteroid(this);
-    }
+//    // Create player's ship
+//    mShip = new Ship(this);
+//    mShip->SetPosition(Vector2(100.0f, 384.0f));
+////    mShip->SetScale(1.5f);
+//    mShip->SetRotation(Math::PiOver2);
+//
+//    // Create actor for the background (this doesn't need a subclass)
+//    Actor* temp = new Actor(this);
+//    temp->SetPosition(Vector2(512.0f, 384.0f));
+//    // Create the "far back" background
+//    BGSpriteComponent* bg = new BGSpriteComponent(temp);
+//    bg->SetScreenSize(Vector2(1024.0f, 768.0f));
+//    std::vector<SDL_Texture*> bgtexs = {
+//        GetTexture("Assets/Farback01.png"),
+//        GetTexture("Assets/Farback02.png")
+//    };
+//    bg->SetBGTextures(bgtexs);
+//    bg->SetScrollSpeed(-100.0f);
+//    // Create the closer background
+//    bg = new BGSpriteComponent(temp, 50);
+//    bg->SetScreenSize(Vector2(1024.0f, 768.0f));
+//    bgtexs = {
+//        GetTexture("Assets/Stars.png"),
+//        GetTexture("Assets/Stars.png")
+//    };
+//    bg->SetBGTextures(bgtexs);
+//    bg->SetScrollSpeed(-200.0f);
+//
+//    //spawn asteroids
+//    int num = 20;
+//    for (int i = 0; i < num; ++i) {
+//        new Asteroid(this);
+//    }
 }
 
 void Game::UnLoadData()

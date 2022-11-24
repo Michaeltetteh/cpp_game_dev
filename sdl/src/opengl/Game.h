@@ -49,8 +49,11 @@ private:
     std::unordered_map<std::string,SDL_Texture*> mTextures;
     std::vector<class SpriteComponent *> mSprites;
 
-    class Ship* mShip; // Player's ship
+//    class Ship* mShip; // Player's ship
     std::vector<class Asteroid*> mAsteroids;
+
+    //opengl context
+    SDL_GLContext mContext;
 
 protected:
     bool mIsRunning;
