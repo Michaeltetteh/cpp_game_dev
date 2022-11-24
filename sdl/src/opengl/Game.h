@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <string>
 #include "Logger/Logger.h"
+#include "VertexArrayBuffer.h"
 
 
 class Game
@@ -54,6 +55,9 @@ private:
 
     //opengl context
     SDL_GLContext mContext;
+
+    void InitSpriteVerts();
+    VertexArrayBuffer *mSpriteVerts;
 
 protected:
     bool mIsRunning;

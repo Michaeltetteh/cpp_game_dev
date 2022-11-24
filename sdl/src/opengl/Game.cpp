@@ -9,7 +9,14 @@
 #include "glad/glad.h"
 
 
-Game::Game() :mWindow(nullptr),mUpdatingActors(false),mIsRunning(true),mTicksCount(0),width(1024),height(768) {}
+Game::Game()
+    :mWindow(nullptr),
+     mUpdatingActors(false),
+     mIsRunning(true),
+     mTicksCount(0),
+     width(1024),
+     height(768)
+ {}
 
 bool Game::Initialize()
 {
@@ -161,8 +168,8 @@ void Game::UpdateGame()
 
 void Game::GenerateOutput()
 {
-    //Set the clear color to red
-    glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+    //Set the clear color
+    glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
     // Clear the color buffer
     glClear(GL_COLOR_BUFFER_BIT);
@@ -338,4 +345,20 @@ void Game::RemoveAsteroid(Asteroid* ast)
     {
         mAsteroids.erase(iter);
     }
+}
+
+
+void Game::InitSpriteVerts()
+{
+    float vertices[] = {
+            -0.5f, 0.5f, 0.0f, // vertex 0
+            0.5f, 0.5f, 0.0f, // vertex 1
+            0.5f, -0.5f, 0.0f, // vertex 2
+            -0.5f, -0.5f, 0.0f // vertex 3
+    };
+    unsigned short indices[] = {
+            0, 1, 2,
+            2, 3, 0
+    };
+    mSpriteVerts = new VertexArrayBuffer(vertices, 4, reinterpret_cast<const unsigned int *>(indices), 6);
 }

@@ -8,12 +8,12 @@ set(HEADERS
         components/InputComponent.h
         components/MoveComponent.h
         components/Component.h
+        VertexArrayBuffer.h
         actors/Asteroid.h
         actors/Laser.h
         actors/Actor.h
         actors/Ship.h
         Game.h
-
 )
 
 set(SOURCE_FILES
@@ -24,6 +24,7 @@ set(SOURCE_FILES
         components/InputComponent.cpp
         components/MoveComponent.cpp
         components/Component.cpp
+        VertexArrayBuffer.cpp
         actors/Asteroid.cpp
         actors/Laser.cpp
         actors/Actor.cpp
