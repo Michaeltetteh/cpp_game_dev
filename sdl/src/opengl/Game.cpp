@@ -358,8 +358,12 @@ void Game::InitSpriteVerts()
         0, 1, 2,
         2, 3, 0
     };
-    
-    mSpriteVerts = new VertexArrayBuffer(vertices, 4, indices, 6);
+   // SDL_Log("\nVertices = %lu \nIndices = %lu",(sizeof(vertices)/ sizeof(float))/3, sizeof(indices)/sizeof(unsigned int));
+    mSpriteVerts = new VertexArrayBuffer(
+            vertices,
+            (sizeof(vertices) / sizeof(float)) / 3,
+            indices,
+            sizeof(indices) / sizeof(unsigned int));
 }
 
 bool Game::LoadShaders()
