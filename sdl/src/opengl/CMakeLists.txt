@@ -1,5 +1,6 @@
 project(OpenGLAsteroid)
 
+
 set(HEADERS
         components/AnimSpriteComponent.h
         components/BGSpriteComponent.h
@@ -13,6 +14,7 @@ set(HEADERS
         actors/Laser.h
         actors/Actor.h
         actors/Ship.h
+        Shader.h
         Game.h
 )
 
@@ -29,6 +31,7 @@ set(SOURCE_FILES
         actors/Laser.cpp
         actors/Actor.cpp
         actors/Ship.cpp
+        Shader.cpp
         Game.cpp
         main.cpp
 )
@@ -39,7 +42,6 @@ include_directories(${PROJECT_NAME} ${HEADERS})
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 
-# link lib
 target_include_directories(${PROJECT_NAME} 
         PRIVATE 
                 ${Math_LIB_INCLUDE_PATH}

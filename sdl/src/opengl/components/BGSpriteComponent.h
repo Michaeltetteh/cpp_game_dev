@@ -16,7 +16,7 @@ public:
     BGSpriteComponent(class Actor *owner, int drawOrder = 10);
 
     void Update(float deltaTime) override;
-    void Draw(SDL_Renderer *rendered) override;
+    void Draw(class Shader *shader) override;
 
     void SetBGTextures(const VEC_TEX_PTR &textures);
     void SetScreenSize(const Vector2 & size) { mScreenSize = size;}

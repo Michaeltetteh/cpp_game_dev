@@ -3,9 +3,11 @@ if [ -d build ]; then
 fi
 
 mkdir -p build
-cd build
-cmake ..
 
-make
-./bin/state_machine
-cd ../
+cmake -S . -B build
+make -C build
+
+
+cd build/bin
+./OpenGLAsteroid
+cd ../..

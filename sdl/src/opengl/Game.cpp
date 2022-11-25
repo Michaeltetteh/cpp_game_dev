@@ -7,11 +7,13 @@
 #include <algorithm>
 #include "Game.h"
 #include "glad/glad.h"
+#include "Shader.h"
 
 
 Game::Game()
     :mWindow(nullptr),
      mUpdatingActors(false),
+     mSpriteShader(nullptr),
      mIsRunning(true),
      mTicksCount(0),
      width(1024),
@@ -53,23 +55,22 @@ bool Game::Initialize()
         return false;
     }
 
+    //create opengl context
     mContext = SDL_GL_CreateContext(mWindow);
 
+    //initialize glad
     if(!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress))
     {
         SDL_Log("Failed to initialize glad...");
     }
 
-//    mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-//    if(!mRenderer) {
-//        SDL_Log("Unable to create rederer: %s",SDL_GetError());
-//        return false;
-//    }
-
-    if(IMG_Init(IMG_INIT_PNG) == 0){
-        SDL_Log("Unable to initialize sdl_image: %s",SDL_GetError());
+    // Make sure we can create/compile shaders
+    if (!LoadShaders())
+    {
         return false;
     }
+
+    InitSpriteVerts();
 
     LoadData();
 
@@ -80,12 +81,14 @@ bool Game::Initialize()
 void Game::Shutdown()
 {
     UnLoadData();
-    IMG_Quit();
-    SDL_DestroyRenderer(mRenderer);
+    delete mSpriteVerts;  
+    mSpriteShader->Unload();
+    delete mSpriteShader;
     //delete opengl context
     SDL_GL_DeleteContext(mContext);
     SDL_DestroyWindow(mWindow);
     SDL_Quit();
+
 }
 
 
@@ -108,7 +111,6 @@ void Game::ProcessInput()
             case SDL_QUIT:
                 mIsRunning = false;
                 break;
-
         }
     }
 
@@ -116,9 +118,6 @@ void Game::ProcessInput()
     if(state[SDL_SCANCODE_ESCAPE]) {
         mIsRunning = false;
     }
-
-
-//    mShip->ProcessKeyboard(state);
 
     mUpdatingActors = true;
     for(auto actor : mActors)
@@ -134,10 +133,6 @@ void Game::UpdateGame()
 
     mTicksCount = SDL_GetTicks();
 
-//    SDL_SetRenderDrawColor(mRenderer, 255,0,0,255); //draw color
-//    SDL_RenderClear(mRenderer); // clear back buffer to current draw color
-
-    //
     //update actors in mActors
     mUpdatingActors = true;
     for(auto actor : mActors)
@@ -166,6 +161,7 @@ void Game::UpdateGame()
 }
 
 
+
 void Game::GenerateOutput()
 {
     //Set the clear color
@@ -174,17 +170,18 @@ void Game::GenerateOutput()
     // Clear the color buffer
     glClear(GL_COLOR_BUFFER_BIT);
 
-//    SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
-//    SDL_RenderClear(mRenderer);
-//
-//    // Draw all sprite components
-//    for (auto sprite : mSprites)
-//    {
-//        sprite->Draw(mRenderer);
-//    }
-//
-//    SDL_RenderPresent(mRenderer);
+    // Activate sprite shader and sprite vertex
+    mSpriteVerts->SetActive();
+    mSpriteShader->SetActive();
 
+    //call draw elements
+    // Draw all sprite components
+    for (auto sprite : mSprites)
+    {
+        sprite->Draw(mSpriteShader);
+    }
+
+    //swaps buffer
     SDL_GL_SwapWindow(mWindow);
 }
 
@@ -219,43 +216,43 @@ void Game::RemoveActor(Actor *actor)
 }
 
 
- SDL_Texture *Game::LoadTexture(const char *filename)
- {
-     //load surface/image
-     SDL_Surface *img = IMG_Load(filename);
-     if(!img) {
-         SDL_Log("Failed to load texture file %s", filename);
-         return nullptr;
-     }
+//  SDL_Texture *Game::LoadTexture(const char *filename)
+//  {
+//      //load surface/image
+//      SDL_Surface *img = IMG_Load(filename);
+//      if(!img) {
+//          SDL_Log("Failed to load texture file %s", filename);
+//          return nullptr;
+//      }
 
-     //create texture from surface
-     SDL_Texture *texture = SDL_CreateTextureFromSurface(mRenderer, img);
-     SDL_FreeSurface(img); //free an RGB surface
-     if(!texture) {
-         SDL_Log("Failed to convert surface to texture for %s", filename);
-         return nullptr;
-     }
+//      //create texture from surface
+//      SDL_Texture *texture = SDL_CreateTextureFromSurface(mRenderer, img);
+//      SDL_FreeSurface(img); //free an RGB surface
+//      if(!texture) {
+//          SDL_Log("Failed to convert surface to texture for %s", filename);
+//          return nullptr;
+//      }
 
-     return texture;
- }
+//      return texture;
+//  }
 
 
-SDL_Texture *Game::GetTexture(const std::string &filename)
-{
-    SDL_Texture *tex = nullptr;
-    auto iter = mTextures.find(filename);
+// SDL_Texture *Game::GetTexture(const std::string &filename)
+// {
+//     SDL_Texture *tex = nullptr;
+//     auto iter = mTextures.find(filename);
 
-    if(iter != mTextures.end()) {
-        tex = iter->second;
-    }
-    else {
-        tex = LoadTexture(filename.c_str());
-        if(tex)
-            mTextures.emplace(filename,tex);
-    }
+//     if(iter != mTextures.end()) {
+//         tex = iter->second;
+//     }
+//     else {
+//         tex = LoadTexture(filename.c_str());
+//         if(tex)
+//             mTextures.emplace(filename,tex);
+//     }
 
-    return tex;
-}
+//     return tex;
+// }
 
 
 void Game::AddSprite(SpriteComponent *sprite)
@@ -280,11 +277,11 @@ void Game::RemoveSprite(class SpriteComponent *sprite)
 void Game::LoadData()
 {
 //    // Create player's ship
-//    mShip = new Ship(this);
-//    mShip->SetPosition(Vector2(100.0f, 384.0f));
-////    mShip->SetScale(1.5f);
-//    mShip->SetRotation(Math::PiOver2);
-//
+    mShip = new Ship(this);
+    // mShip->SetPosition(Vector2(100.0f, 384.0f));
+    // mShip->SetScale(1.5f);
+    mShip->SetRotation(Math::PiOver2);
+
 //    // Create actor for the background (this doesn't need a subclass)
 //    Actor* temp = new Actor(this);
 //    temp->SetPosition(Vector2(512.0f, 384.0f));
@@ -323,12 +320,12 @@ void Game::UnLoadData()
         delete mActors.back();
     }
 
-    // Destroy textures
-    for (auto i : mTextures)
-    {
-        SDL_DestroyTexture(i.second);
-    }
-    mTextures.clear();
+    // // Destroy textures
+    // for (auto i : mTextures)
+    // {
+    //     SDL_DestroyTexture(i.second);
+    // }
+    // mTextures.clear();
 }
 
 
@@ -351,14 +348,27 @@ void Game::RemoveAsteroid(Asteroid* ast)
 void Game::InitSpriteVerts()
 {
     float vertices[] = {
-            -0.5f, 0.5f, 0.0f, // vertex 0
-            0.5f, 0.5f, 0.0f, // vertex 1
-            0.5f, -0.5f, 0.0f, // vertex 2
-            -0.5f, -0.5f, 0.0f // vertex 3
+            -0.5f,  0.5f, 0.0f, // top left
+            0.5f,  0.5f, 0.0f, // top right
+            0.5f, -0.5f, 0.0f, // bottom right
+            -0.5f, -0.5f, 0.0f  // bottom left
     };
-    unsigned short indices[] = {
+
+    unsigned int indices[] = {
             0, 1, 2,
             2, 3, 0
     };
-    mSpriteVerts = new VertexArrayBuffer(vertices, 4, reinterpret_cast<const unsigned int *>(indices), 6);
+
+
+    mSpriteVerts = new VertexArrayBuffer(vertices, sizeof(vertices), indices, sizeof(indices));
+}
+
+bool Game::LoadShaders()
+{
+    mSpriteShader = new Shader();
+    if(!mSpriteShader->Load("shaders/basic.vert.glsl","shaders/basic.frag.glsl")){
+        return false;
+    }
+    mSpriteShader->SetActive();
+    return true;
 }

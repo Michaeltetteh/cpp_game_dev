@@ -10,15 +10,10 @@ set(CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointe
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+include(cmake/macros.cmake)
 
-macro(copy_files files)
-    foreach(file ${files})
-        message(STATUS "Copying resource ${file}")
-        file(COPY ${file} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/bin/Assets)
-    endforeach()
-endmacro()
-
-copy_files(${CMAKE_CURRENT_SOURCE_DIR}/Assets/)
+copy_files(${CMAKE_CURRENT_SOURCE_DIR}/Assets/ Assets)
+copy_files(${CMAKE_CURRENT_SOURCE_DIR}/src/opengl/shaders/ shaders)
 
 
 find_package(Git QUIET)

@@ -17,7 +17,8 @@ Asteroid::Asteroid(Game *game)
 
     //load sprite
     SpriteComponent *sc = new SpriteComponent(this);
-    sc->SetTexture(game->GetTexture("Assets/Asteroid/Asteroid.png"));
+    std::ignore = sc;
+    // sc->SetTexture(game->GetTexture("Assets/Asteroid/Asteroid.png"));
 
     //movement
     MoveComponent *mc = new MoveComponent(this);
