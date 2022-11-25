@@ -373,5 +373,7 @@ bool Game::LoadShaders()
         return false;
     }
     mSpriteShader->SetActive();
+    //set uniforms
+    mSpriteShader->SetVec3Uniform("translation_vec",glm::vec3(0.2f,0.15f,0.0f));
     return true;
 }

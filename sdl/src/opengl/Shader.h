@@ -5,6 +5,8 @@
 #include <glad/glad.h>
 #include <string>
 #include "Math/Math.h"
+#include "glm/glm.hpp"
+
 
 class Shader
 {
@@ -18,6 +20,9 @@ public:
     void SetActive();
     // Sets a Matrix uniform
     void SetMatrixUniform(const char* name, const Matrix4& matrix);
+
+    //Set vec3 uniform
+    void SetVec3Uniform(const std::string &name,const glm::vec3 value) const;
 private:
     // Tries to compile the specified shader
     bool CompileShader(const std::string& fileName,

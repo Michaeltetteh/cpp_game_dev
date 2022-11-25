@@ -133,3 +133,9 @@ bool Shader::IsValidProgram()
 
     return true;
 }
+
+
+void Shader::SetVec3Uniform(const std::string &name,const glm::vec3 value) const
+{
+    glUniform3fv(glGetUniformLocation(mShaderProgram, name.c_str()), 1, &value[0]);
+}

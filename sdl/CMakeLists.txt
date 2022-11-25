@@ -54,8 +54,7 @@ set(Logger_LIB_INCLUDE_PATH ${PROJECT_SOURCE_DIR}/lib/)
 
 add_subdirectory(lib)
 
-add_subdirectory(external/sdl)
-add_subdirectory(external/sdl_image)
+add_subdirectory(external)
 
 add_subdirectory(src/pong)
 add_subdirectory(src/om)

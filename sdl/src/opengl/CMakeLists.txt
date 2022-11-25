@@ -48,7 +48,8 @@ target_include_directories(${PROJECT_NAME}
                 ${Logger_LIB_INCLUDE_PATH}
                 ${RANDOM_LIB_INCLUDE_PATH}
                 ${GLAD_LIB_INCLUDE_PATH}
-
+        PRIVATE
+            ${LearnSDL_SOURCE_DIR}/external/glm
         PUBLIC
                 ${LearnSDL_SOURCE_DIR}/external/sdl/include
 )
