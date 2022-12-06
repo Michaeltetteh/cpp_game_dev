@@ -2,10 +2,12 @@
 
 in vec3 inPosition;
 
-uniform vec3 translation_vec;
+uniform mat4 uWorldTransform;
+uniform mat4 uViewProjection;
 
 void main()
 {
-    gl_Position = vec4(inPosition + translation_vec, 1.0);
+    vec4 pos = vec4(inPosition ,1.0f); //object space
+    gl_Position = pos * uWorldTransform * uViewProjection; //object -> world space
 
 }

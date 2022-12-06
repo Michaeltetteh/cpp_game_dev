@@ -24,14 +24,20 @@ void SpriteComponent::SetTexture(SDL_Texture *texture)
 
 void SpriteComponent::Draw(Shader *shader)
 {
-    std::ignore = shader; //ignore for now
-
+   //Scale the quad by the width/height of texture
+    Matrix4 scaleMat = Matrix4::CreateScale(
+            static_cast<float>(mTexWidth),
+            static_cast<float>(mTexHeight),
+            1.0f);
+    Matrix4 world = scaleMat * mOwner->GetWorldTransform();
+    shader->SetMatrixUniform("uWorldTransform",world);
     glDrawElements(
             GL_TRIANGLES,       // Type of polygon/primitive to draw
             6,                  // Number of indices in index buffer
             GL_UNSIGNED_INT,    // Type of each index
             nullptr             // null
     );
+
 
 
 }

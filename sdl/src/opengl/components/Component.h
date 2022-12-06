@@ -18,6 +18,9 @@ public:
 
     virtual void ProcessInput(const uint8_t *keyState);
 
+    //called when world transform changes
+    virtual void OnUpdateWorldTransform(){}
+
 protected:
     // Owning actor
     class Actor* mOwner;

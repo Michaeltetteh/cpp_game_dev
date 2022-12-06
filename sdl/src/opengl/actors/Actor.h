@@ -27,11 +27,11 @@ public:
 
     // Getters/setters
     const Vector2& GetPosition() const { return mPosition; }
-    void SetPosition(const Vector2& pos) { mPosition = pos; }
+    void SetPosition(const Vector2& pos) { mPosition = pos; mRecomputeWorldTransform= true;}
     float GetScale() const { return mScale; }
-    void SetScale(float scale) { mScale = scale; }
+    void SetScale(float scale) { mScale = scale; mRecomputeWorldTransform = true; }
     float GetRotation() const { return mRotation; }
-    void SetRotation(float rotation) { mRotation = rotation; }
+    void SetRotation(float rotation) { mRotation = rotation; mRecomputeWorldTransform = true; }
 
     State GetState() const { return mState; }
     void SetState(State state) { mState = state; }
@@ -46,11 +46,17 @@ public:
 
     void ProcessInput(const uint8_t *keyState);
     virtual void ActorInput(const uint8_t *keyState);
+
+    void ComputeWorldTransform();
+    const Matrix4& GetWorldTransform(){ return mWorldTransform;}
+
 private:
     // Actor's state
     State mState;
 
     // Transform
+    Matrix4 mWorldTransform;
+    bool mRecomputeWorldTransform;
     Vector2 mPosition;
     float mScale;
     float mRotation;

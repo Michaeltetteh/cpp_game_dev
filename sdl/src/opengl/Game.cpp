@@ -142,7 +142,10 @@ void Game::UpdateGame()
 
     //move all pending actors to mActors and clear mPendingActors
     for(auto actor : mPendingActors)
+    {
+        actor->ComputeWorldTransform();
         mActors.emplace_back(actor);
+    }
     mPendingActors.clear();
 
     //add dead actors to temp vector
@@ -178,8 +181,10 @@ void Game::GenerateOutput()
     // Draw all sprite components
     for (auto sprite : mSprites)
     {
-        sprite->Draw(mSpriteShader);
+        for (int i=0;i<5;++i)
+            sprite->Draw(mSpriteShader);
     }
+
 
     //swaps buffer
     SDL_GL_SwapWindow(mWindow);
@@ -276,10 +281,8 @@ void Game::RemoveSprite(class SpriteComponent *sprite)
 
 void Game::LoadData()
 {
-//    // Create player's ship
+    // Create player's ship
     mShip = new Ship(this);
-    // mShip->SetPosition(Vector2(100.0f, 384.0f));
-    // mShip->SetScale(1.5f);
     mShip->SetRotation(Math::PiOver2);
 
 //    // Create actor for the background (this doesn't need a subclass)
@@ -374,6 +377,8 @@ bool Game::LoadShaders()
     }
     mSpriteShader->SetActive();
     //set uniforms
-    mSpriteShader->SetVec3Uniform("translation_vec",glm::vec3(0.2f,0.15f,0.0f));
+    //mSpriteShader->SetVec3Uniform("translation_vec",glm::vec3(0.2f,0.15f,0.0f));
+    Matrix4 viewProj = Matrix4::CreateSimpleViewProj(1024.0f,768.0f);
+    mSpriteShader->SetMatrixUniform("uViewProjection",viewProj);
     return true;
 }
