@@ -7,6 +7,3 @@
 [submodule "sdl/external/glm"]
 	path = sdl/external/glm
 	url = https://github.com/Michaeltetteh/glm.git
-[submodule "sdl/external/soil"]
-	path = sdl/external/soil
-	url = https://github.com/kbranigan/Simple-OpenGL-Image-Library.git
