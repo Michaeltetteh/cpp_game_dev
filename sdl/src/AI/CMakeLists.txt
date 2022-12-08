@@ -1,4 +1,5 @@
 project(state_machine)
+set(CMAKE_CXX_FLAGS "-Werror -Wall -Wextra -Wpedantic")
 
 set(HEADERS
         components/AnimSpriteComponent.h

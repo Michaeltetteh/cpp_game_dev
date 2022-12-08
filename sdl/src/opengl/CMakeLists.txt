@@ -1,41 +1,19 @@
 project(OpenGLAsteroid)
 
 
-set(HEADERS
-        components/AnimSpriteComponent.h
-        components/BGSpriteComponent.h
-        components/SpriteComponent.h
-        components/CircleComponent.h
-        components/InputComponent.h
-        components/MoveComponent.h
-        components/Component.h
-        VertexArrayBuffer.h
-        actors/Asteroid.h
-        actors/Laser.h
-        actors/Actor.h
-        actors/Ship.h
-        Shader.h
-        Game.h
-)
+set(CMAKE_CXX_FLAGS "-Werror -Wall -Wextra -Wpedantic")
 
-set(SOURCE_FILES
-        components/AnimeSpriteComponent.cpp
-        components/BGSpriteComponent.cpp
-        components/SpriteComponent.cpp
-        components/CircleComponent.cpp
-        components/InputComponent.cpp
-        components/MoveComponent.cpp
-        components/Component.cpp
-        VertexArrayBuffer.cpp
-        actors/Asteroid.cpp
-        actors/Laser.cpp
-        actors/Actor.cpp
-        actors/Ship.cpp
-        Shader.cpp
-        Game.cpp
-        main.cpp
+file(GLOB HEADERS
+    "${CMAKE_CURRENT_SOURCE_DIR}/actors/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/components/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/EN/*.h"
 )
-
+file(GLOB SOURCE_FILES
+    "${CMAKE_CURRENT_SOURCE_DIR}/actors/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/components/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/EN/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
+)
 
 include_directories(${PROJECT_NAME} ${HEADERS})
 
@@ -49,7 +27,8 @@ target_include_directories(${PROJECT_NAME}
                 ${RANDOM_LIB_INCLUDE_PATH}
                 ${GLAD_LIB_INCLUDE_PATH}
         PRIVATE
-            ${LearnSDL_SOURCE_DIR}/external/glm
+                ${LearnSDL_SOURCE_DIR}/external/glm
+                ${LearnSDL_SOURCE_DIR}/lib/stb_image
         PUBLIC
                 ${LearnSDL_SOURCE_DIR}/external/sdl/include
 )
@@ -58,6 +37,7 @@ target_link_directories(${PROJECT_NAME}
                 ${Math_LIB_PATH} 
                 ${RANDOM_LIB_PATH}
                 ${LearnSDL_SOURCE_DIR}/external/sdl
+                ${LearnSDL_SOURCE_DIR}/lib/stb_image
                 ${GLAD_LIB_PATH}
 )
 
@@ -67,4 +47,5 @@ target_link_libraries(${PROJECT_NAME}
         SDL2::SDL2
         SDL2_image
         Glad
+        stb_image
 )

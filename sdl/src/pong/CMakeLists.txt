@@ -1,5 +1,7 @@
 project(pong)
 
+set(CMAKE_CXX_FLAGS "-Werror -Wall -Wextra -Wpedantic")
+
 set(HEADERS
         Game.h
         Pong.h

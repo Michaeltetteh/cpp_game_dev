@@ -1,32 +1,32 @@
 #include "MoveComponent.h"
-#include "Math/Math.h"
 #include "../actors/Actor.h"
+#include "Math/Math.h"
 
-MoveComponent::MoveComponent(class Actor *actor, int UpdateOrder)
-        :Component(actor,UpdateOrder),
-         mAngularSpeed(0.0f),
-         mForwardSpeed(0.0f)
-        {}
-
+MoveComponent::MoveComponent(class Actor* owner, int updateOrder)
+	:Component(owner, updateOrder)
+	,mAngularSpeed(0.0f)
+	,mForwardSpeed(0.0f)
+	{}
 
 void MoveComponent::Update(float deltaTime)
 {
-    if(!Math::NearZero(mAngularSpeed)) {
-        float rotation = mOwner->GetRotation();
-        rotation += mAngularSpeed * deltaTime;
-        mOwner->SetRotation(rotation);
-    }
-    if(!Math::NearZero(mForwardSpeed)) {
-        Vector2 pos = mOwner->GetPosition();
-        pos += mOwner->GetForward() * mForwardSpeed * deltaTime;
+	if (!Math::NearZero(mAngularSpeed))
+	{
+		float rot = mOwner->GetRotation();
+		rot += mAngularSpeed * deltaTime;
+		mOwner->SetRotation(rot);
+	}
+	
+	if (!Math::NearZero(mForwardSpeed))
+	{
+		Vector2 pos = mOwner->GetPosition();
+		pos += mOwner->GetForward() * mForwardSpeed * deltaTime;
 
-        // (Screen wrapping code only for asteroids)
-        if (pos.x < 0.0f) { pos.x = 1022.0f; }
-        else if (pos.x > 1024.0f) { pos.x = 2.0f; }
-
-        if (pos.y < 0.0f) { pos.y = 766.0f; }
-        else if (pos.y > 768.0f) { pos.y = 2.0f; }
-
-        mOwner->SetPosition(pos);
-    }
+		// Screen wrapping (for asteroids)
+		if (pos.x < -512.0f) { pos.x = 510.0f; }
+		else if (pos.x > 512.0f) { pos.x = -510.0f; }
+		if (pos.y < -384.0f) { pos.y = 382.0f; }
+		else if (pos.y > 384.0f) { pos.y = -382.0f; }
+		mOwner->SetPosition(pos);
+	}
 }

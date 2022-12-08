@@ -1,25 +1,23 @@
 #ifndef MOVECOMPONENT_H
 #define MOVECOMPONENT_H
 
+
 #include "Component.h"
 
 class MoveComponent : public Component
 {
 public:
-    MoveComponent(class Actor * actor, int UpdateOrder=10);
-
-    void Update(float deltaTime) override;
-
-    void SetAngularSpeed(float angularSpeed) { mAngularSpeed = angularSpeed;}
-    float GetAngularSpeed() { return mAngularSpeed;}
-    void SetForwardSpeed(float forward) { mForwardSpeed = forward;}
-    float GetForwardSpeed(){ return mForwardSpeed;}
-
-
+	// Lower update order to update first
+	MoveComponent(class Actor* owner, int updateOrder = 10);
+	void Update(float deltaTime) override;
+	
+	float GetAngularSpeed() const { return mAngularSpeed; }
+	float GetForwardSpeed() const { return mForwardSpeed; }
+	void SetAngularSpeed(float speed) { mAngularSpeed = speed; }
+	void SetForwardSpeed(float speed) { mForwardSpeed = speed; }
 private:
-    float mAngularSpeed; //in radians/second
-    float mForwardSpeed;
+	float mAngularSpeed;
+	float mForwardSpeed;
 };
-
 
 #endif

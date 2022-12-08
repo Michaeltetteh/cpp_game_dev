@@ -2,30 +2,33 @@
 #include "../actors/Actor.h"
 
 
-CircleComponent::CircleComponent(Actor *owner)
-    :Component(owner), 
-     mRadius(0.0f)
-{}
+
+CircleComponent::CircleComponent(class Actor* owner)
+:Component(owner)
+,mRadius(0.0f)
+{
+	
+}
+
+const Vector2& CircleComponent::GetCenter() const
+{
+	return mOwner->GetPosition();
+}
 
 float CircleComponent::GetRadius() const
 {
-    return mOwner->GetScale() * mRadius;
+	return mOwner->GetScale() * mRadius;
 }
 
-const Vector2 &CircleComponent::GetCenter() const
+bool Intersect(const CircleComponent& a, const CircleComponent& b)
 {
-    return mOwner->GetPosition();
-}
+	// Calculate distance squared
+	Vector2 diff = a.GetCenter() - b.GetCenter();
+	float distSq = diff.LengthSq();
 
+	// Calculate sum of radii squared
+	float radiiSq = a.GetRadius() + b.GetRadius();
+	radiiSq *= radiiSq;
 
-bool Intersects(const CircleComponent &a, const CircleComponent &b)
-{
-    //calc distance squared
-    Vector2 diff = a.GetCenter() - b.GetCenter();
-    float distanceSquared = diff.LengthSq(); // for comparison, not true distance we avoid sqrt() since its expensive
-
-    float radiiSquared = a.GetRadius() + b.GetRadius();
-    radiiSquared *= radiiSquared;  // (sum of radii)^2
-
-    return distanceSquared <= radiiSquared; // has collided if distanceSquared <= radiiSquared
+	return distSq <= radiiSq;
 }

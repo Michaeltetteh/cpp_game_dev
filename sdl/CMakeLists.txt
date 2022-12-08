@@ -4,7 +4,6 @@ project(LearnSDL)
 set(CMAKE_CXX_STANDARD 11)
 
 # set(CMAKE_CXX_FLAGS "-Werror -Wall -Wextra -Wpedantic")
-set(CMAKE_CXX_FLAGS "-Wall")
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -fno-omit-frame-pointer -fsanitize=address")
 set(CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
@@ -14,10 +13,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 include(cmake/macros.cmake)
 
 copy_files(${CMAKE_CURRENT_SOURCE_DIR}/Assets/ Assets)
-copy_files(${CMAKE_CURRENT_SOURCE_DIR}/src/opengl/shaders/ shaders)
 
-copy_files(${CMAKE_CURRENT_SOURCE_DIR}/src/cc/Assets/ Assets/cc)
-copy_files(${CMAKE_CURRENT_SOURCE_DIR}/src/cc/Shaders/ shaders/cc)
+copy_files(${CMAKE_CURRENT_SOURCE_DIR}/src/opengl/Assets/ Assets/gl)
+copy_files(${CMAKE_CURRENT_SOURCE_DIR}/src/opengl/Shaders/ shaders/gl)
 
 
 find_package(Git QUIET)
@@ -60,9 +58,8 @@ add_subdirectory(lib)
 
 add_subdirectory(external)
 
-# add_subdirectory(src/pong)
-# add_subdirectory(src/om)
-# add_subdirectory(src/asteroid)
-# add_subdirectory(src/AI)
-# add_subdirectory(src/opengl)
-add_subdirectory(src/cc)
+add_subdirectory(src/pong)
+add_subdirectory(src/om)
+add_subdirectory(src/asteroid)
+add_subdirectory(src/AI)
+add_subdirectory(src/opengl)

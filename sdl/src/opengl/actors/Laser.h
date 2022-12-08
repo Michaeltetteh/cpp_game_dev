@@ -1,18 +1,17 @@
 #ifndef LASER_H
 #define LASER_H
 
+
 #include "Actor.h"
-
-
 class Laser : public Actor
 {
 public:
-    Laser(class Game* game);
+	Laser(class Game* game);
 
-    void UpdateActor(float deltaTime) override;
+	void UpdateActor(float deltaTime) override;
 private:
-    class CircleComponent* mCircle;
-    float mDeathTimer;
+	class CircleComponent* mCircle;
+	float mDeathTimer;
 };
 
 #endif

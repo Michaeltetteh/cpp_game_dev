@@ -1,5 +1,5 @@
 project(Object_Model)
-
+set(CMAKE_CXX_FLAGS "-Werror -Wall -Wextra -Wpedantic")
 set(HEADERS
         Game.h
         Actor.h
