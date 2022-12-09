@@ -10,3 +10,6 @@
 [submodule "sdl/external/soil"]
 	path = sdl/external/soil
 	url = https://github.com/paralin/soil.git
+[submodule "sdl/external/rapidjson"]
+	path = sdl/external/rapidjson
+	url = https://github.com/Tencent/rapidjson.git

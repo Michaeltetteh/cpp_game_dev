@@ -4,10 +4,10 @@ fi
 
 mkdir -p build
 
-cmake -S . -B build
+cmake -DRAPIDJSON_BUILD_DOC=OFF -DRAPIDJSON_BUILD_TESTS=OFF -DRAPIDJSON_BUILD_EXAMPLES=OFF -S . -B build
 make -C build
 
 
-cd build/bin
-./OpenGLAsteroid
-cd ../..
+# cd build/bin
+# ./OpenGLAsteroid
+# cd ../..
